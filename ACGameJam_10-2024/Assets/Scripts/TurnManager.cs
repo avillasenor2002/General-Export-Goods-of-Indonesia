@@ -11,16 +11,20 @@ public class TurnManager : MonoBehaviour
     public float restartDelay = 2.0f;
     public TextMeshProUGUI inputText;
     public Image fadeImage;
+    public Image progressBar;             // Reference to the progress bar UI Image
     public GameObject victoryScreen;      // Reference to the victory screen GameObject
     public GameObject lossScreen;         // Reference to the loss screen GameObject
     public float fadeDuration = 1.5f;
 
     private int inputCount = 0;
+    private int initialEnemyCount;
 
     void Start()
     {
         UpdateInputText();
         SetFadeAlpha(0);  // Ensure fadeImage starts transparent
+        initialEnemyCount = FindObjectsOfType<EnemyScript>().Length;
+        UpdateProgressBar(); // Initial update for progress bar
         CheckEnemiesRemaining(); // Initial check for enemy count
 
         // Ensure victory and loss screens are hidden initially
@@ -69,6 +73,8 @@ public class TurnManager : MonoBehaviour
         {
             ShowVictoryScreen();
         }
+
+        UpdateProgressBar(); // Update progress bar based on remaining enemies
     }
 
     void ShowVictoryScreen()
@@ -127,6 +133,16 @@ public class TurnManager : MonoBehaviour
             Color color = fadeImage.color;
             color.a = alpha;
             fadeImage.color = color;
+        }
+    }
+
+    void UpdateProgressBar()
+    {
+        if (progressBar != null && initialEnemyCount > 0)
+        {
+            int remainingEnemies = FindObjectsOfType<EnemyScript>().Length;
+            float progress = 1.0f - (float)remainingEnemies / initialEnemyCount;
+            progressBar.fillAmount = progress;
         }
     }
 }
