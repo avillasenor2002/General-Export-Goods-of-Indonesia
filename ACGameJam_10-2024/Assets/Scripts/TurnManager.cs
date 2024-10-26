@@ -7,18 +7,19 @@ using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
-    public int maxInputs = 5;                  
-    public float restartDelay = 2.0f;          
-    public TextMeshProUGUI inputText;          
-    public Image fadeImage;                    
-    public float fadeDuration = 1.5f;          
+    public int maxInputs = 5;
+    public float restartDelay = 2.0f;
+    public TextMeshProUGUI inputText;
+    public Image fadeImage;
+    public float fadeDuration = 1.5f;
 
-    private int inputCount = 0;                
+    private int inputCount = 0;
 
     void Start()
     {
         UpdateInputText();
         SetFadeAlpha(0);  // Ensure fadeImage starts transparent
+        CheckEnemiesRemaining(); // Initial check for enemy count
     }
 
     void Update()
@@ -28,6 +29,9 @@ public class TurnManager : MonoBehaviour
         {
             CountInput();
         }
+
+        // Continuously check for the number of active enemies
+        CheckEnemiesRemaining();
     }
 
     void CountInput()
@@ -48,9 +52,20 @@ public class TurnManager : MonoBehaviour
         inputText.text = $"{inputsRemaining}";
     }
 
+    void CheckEnemiesRemaining()
+    {
+        int enemyCount = FindObjectsOfType<EnemyScript>().Length;
+
+        if (enemyCount <= 0)
+        {
+            // Trigger fade to black and restart once enemies are all gone
+            StartCoroutine(RestartSceneAfterDelay());
+        }
+    }
+
     IEnumerator RestartSceneAfterDelay()
     {
-        Debug.Log($"Max inputs reached. Restarting scene in {restartDelay} seconds...");
+        Debug.Log($"Max inputs reached or no enemies left. Restarting scene in {restartDelay} seconds...");
 
         // Start fade to black
         yield return StartCoroutine(FadeToBlack());
