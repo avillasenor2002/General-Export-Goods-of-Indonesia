@@ -35,6 +35,8 @@ public class BallMovement : MonoBehaviour
 
     public bool playerGrowing;
 
+    public AlexScreenShake screenShake;
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
@@ -119,11 +121,15 @@ public class BallMovement : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D trig)
     {
-        EnemyScript enScript = trig.gameObject.GetComponent<EnemyScript>();
+        EnemyScript enScript = trig.gameObject.GetComponentInParent< EnemyScript>();
         if (enScript != null)
         {
             if (enScript.currentHealth < playerHealth)
             {
+                if (screenShake != null)
+                {
+                    screenShake.IsShaking();
+                }
                 Destroy(enScript.gameObject);
                 //GrowPlayer(enScript.currentHealth);
                 playerGrowing = true;
@@ -139,14 +145,23 @@ public class BallMovement : MonoBehaviour
         {
             if (enScript.currentHealth == playerHealth)
             {
+                if (screenShake != null)
+                {
+                    screenShake.IsShaking();
+                }
                 playerHealth = playerHealth + enScript.currentHealth;
                 enemyHealthUpdate = enScript.currentHealth;
                 //GrowPlayer(enScript.currentHealth);
                 playerGrowing = true;
+                enScript.isLaunched = true;
                 StartCoroutine(BelatedDeath(col.gameObject));
             }
             else if (enScript.currentHealth > playerHealth)
             {
+                if (screenShake != null)
+                {
+                    screenShake.IsShaking();
+                }
                 Destroy(this.gameObject);
                 col.rigidbody.drag = 1000;
                 col.rigidbody.angularDrag = 1000;
@@ -156,7 +171,7 @@ public class BallMovement : MonoBehaviour
 
     IEnumerator BelatedDeath(GameObject enemy)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         Destroy(enemy);
     }
 

@@ -17,6 +17,8 @@ public class EnemyScript : MonoBehaviour
     public int currentFormIndex;
     public int currentHealth;
     private SpriteRenderer spriteRenderer;
+    public BallMovement Balls;
+    public bool isLaunched;
 
     void Start()
     {
@@ -52,11 +54,29 @@ public class EnemyScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        /*// Check the tag of the colliding object
-        if (collision.CompareTag("Wall"))
+        EnemyScript enScript = collision.gameObject.GetComponentInParent<EnemyScript>();
+        if (enScript != null)
         {
-            Destroy(this.gameObject, 0.5f); // Destroys the object after 2 seconds
-        }*/
+            if (enScript.currentHealth <= currentHealth)
+            {
+                if (Balls.screenShake != null)
+                {
+                    Balls.screenShake.IsShaking();
+                }
+                if (isLaunched == true)
+                {
+                    Destroy(gameObject);
+                    StartCoroutine(BelatedDeath(collision.gameObject));
+                }
+                //GrowPlayer(enScript.currentHealth);
+            }
+        }
+    }
+
+    IEnumerator BelatedDeath(GameObject enemy)
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(enemy);
     }
 
     public void ChangeForm()
