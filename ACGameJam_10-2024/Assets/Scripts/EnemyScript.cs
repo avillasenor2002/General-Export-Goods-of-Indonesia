@@ -34,6 +34,18 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.LogError("No forms found in enemy data!");
         }
+
+        BallMovement Balls = FindObjectOfType<BallMovement>();
+
+        if (Balls != null)
+        {
+            Debug.Log("Found object with TargetScript: " + Balls.gameObject.name);
+            // You can now access targetObject's properties and methods
+        }
+        else
+        {
+            Debug.Log("No object with TargetScript found in the scene.");
+        }
     }
 
     void SetForm(int formIndex)
@@ -54,7 +66,7 @@ public class EnemyScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        EnemyScript enScript = collision.gameObject.GetComponentInParent<EnemyScript>();
+        EnemyScript enScript = collision.gameObject.GetComponent<EnemyScript>();
         if (enScript != null)
         {
             if (enScript.currentHealth <= currentHealth)
@@ -65,18 +77,18 @@ public class EnemyScript : MonoBehaviour
                 }
                 if (isLaunched == true)
                 {
+                    enScript.StartCoroutine(BelatedDeath(collision.gameObject));
                     Destroy(gameObject);
-                    StartCoroutine(BelatedDeath(collision.gameObject));
                 }
                 //GrowPlayer(enScript.currentHealth);
             }
         }
     }
 
-    IEnumerator BelatedDeath(GameObject enemy)
+    IEnumerator BelatedDeath(GameObject gameObject)
     {
         yield return new WaitForSeconds(2);
-        Destroy(enemy);
+        Destroy(this.gameObject);
     }
 
     public void ChangeForm()
