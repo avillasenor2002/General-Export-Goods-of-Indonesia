@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -29,7 +30,11 @@ public class BallMovement : MonoBehaviour
 
     //player stats variables
     public int playerHealth;
-    public int enemyHealth;
+    public int enemyHealthUpdate;
+
+    public Vector2 playerSize;
+
+    public bool playerGrowing;
 
     void Start()
     {
@@ -47,6 +52,7 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerSize = transform.localScale;
         //records mouse position when M1 is held down, points player at mouse position
         if (Input.GetMouseButton(0))
         {
@@ -105,13 +111,66 @@ public class BallMovement : MonoBehaviour
                 playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
             }
         }
+
+        if (playerGrowing == true)
+        {
+            GrowPlayer(enemyHealthUpdate);
+        }
     }
 
-    //void GrowPlayer()
-    //{
-    //    if (EnemyScript.Health > playerhealth)
-    //    {
-    //        transform.localScale = new Vector2()
-    //    }
-    //}
+    public void OnTriggerEnter2D(Collider2D trig)
+    {
+        EnemyScript enScript = trig.gameObject.GetComponent<EnemyScript>();
+        if (enScript != null)
+        {
+            if (enScript.currentHealth < playerHealth)
+            {
+                Destroy(enScript.gameObject);
+                //GrowPlayer(enScript.currentHealth);
+                playerGrowing = true;
+                enemyHealthUpdate = enScript.currentHealth;
+            }
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D col)
+    {
+        EnemyScript enScript = col.gameObject.GetComponent<EnemyScript>();
+        if (enScript != null)
+        {
+            if (enScript.currentHealth == playerHealth)
+            {
+                playerHealth = playerHealth + enScript.currentHealth;
+                enemyHealthUpdate = enScript.currentHealth;
+                //GrowPlayer(enScript.currentHealth);
+                playerGrowing = true;
+                StartCoroutine(BelatedDeath(col.gameObject));
+            }
+            else if (enScript.currentHealth > playerHealth)
+            {
+                Destroy(this.gameObject);
+                col.rigidbody.drag = 1000;
+                col.rigidbody.angularDrag = 1000;
+            }
+        }
+    }
+
+    IEnumerator BelatedDeath(GameObject enemy)
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(enemy);
+    }
+
+    public void GrowPlayer(int enemyHealth)
+    {
+        if ((Mathf.Round(playerHealth * 100))/100 <  enemyHealth*4)
+        {
+            transform.localScale = new Vector2(Mathf.Lerp(transform.localScale.x, enemyHealth * 4, 0.1f), Mathf.Lerp(transform.localScale.y, enemyHealth * 4, 0.1f));
+        }
+        else
+        {
+            transform.localScale = new Vector2(enemyHealth*4,enemyHealth*4);
+            playerGrowing = false;
+        }
+    }
 }
