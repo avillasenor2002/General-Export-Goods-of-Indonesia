@@ -77,7 +77,7 @@ public class EnemyScript : MonoBehaviour
                 }
                 if (isLaunched == true)
                 {
-                    enScript.StartCoroutine(BelatedDeath(collision.gameObject));
+                    //enScript.StartCoroutine(BelatedDeath(collision.gameObject));
                     Destroy(gameObject);
                 }
                 //GrowPlayer(enScript.currentHealth);

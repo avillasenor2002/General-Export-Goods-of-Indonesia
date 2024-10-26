@@ -11,6 +11,8 @@ public class TurnManager : MonoBehaviour
     public float restartDelay = 2.0f;
     public TextMeshProUGUI inputText;
     public Image fadeImage;
+    public GameObject victoryScreen;      // Reference to the victory screen GameObject
+    public GameObject lossScreen;         // Reference to the loss screen GameObject
     public float fadeDuration = 1.5f;
 
     private int inputCount = 0;
@@ -20,6 +22,13 @@ public class TurnManager : MonoBehaviour
         UpdateInputText();
         SetFadeAlpha(0);  // Ensure fadeImage starts transparent
         CheckEnemiesRemaining(); // Initial check for enemy count
+
+        // Ensure victory and loss screens are hidden initially
+        if (victoryScreen != null)
+            victoryScreen.SetActive(false);
+
+        if (lossScreen != null)
+            lossScreen.SetActive(false);
     }
 
     void Update()
@@ -42,7 +51,7 @@ public class TurnManager : MonoBehaviour
         // Check if input count has reached the maximum threshold
         if (inputCount >= maxInputs)
         {
-            StartCoroutine(RestartSceneAfterDelay());
+            ShowLossScreen();  // Show loss screen instead of immediately fading to black
         }
     }
 
@@ -58,17 +67,35 @@ public class TurnManager : MonoBehaviour
 
         if (enemyCount <= 0)
         {
-            // Trigger fade to black and restart once enemies are all gone
-            StartCoroutine(RestartSceneAfterDelay());
+            ShowVictoryScreen();
+        }
+    }
+
+    void ShowVictoryScreen()
+    {
+        if (victoryScreen != null)
+        {
+            victoryScreen.SetActive(true);
+
+            // Optional: Start the fade-to-black effect for the background
+            StartCoroutine(FadeToBlack());
+        }
+    }
+
+    void ShowLossScreen()
+    {
+        if (lossScreen != null)
+        {
+            lossScreen.SetActive(true);
+
+            // Optional: Start the fade-to-black effect for the background
+            StartCoroutine(FadeToBlack());
         }
     }
 
     IEnumerator RestartSceneAfterDelay()
     {
-        Debug.Log($"Max inputs reached or no enemies left. Restarting scene in {restartDelay} seconds...");
-
-        // Start fade to black
-        yield return StartCoroutine(FadeToBlack());
+        Debug.Log($"Restarting scene in {restartDelay} seconds...");
 
         // Wait for the specified delay
         yield return new WaitForSeconds(restartDelay);
