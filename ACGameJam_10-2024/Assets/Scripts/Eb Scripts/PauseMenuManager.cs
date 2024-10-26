@@ -3,38 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 // by eb
 // this script handles any menu behaviour while in the levels
 public class PauseMenuManager : MonoBehaviour
 {
+    [Header("UI Status Items")]
     public GameObject turnCounter;
     public GameObject playerStatus;
+
+    [Header("UI Pause Items")]
     public GameObject pauseButton;
 
     public GameObject pauseMenu;
-    public GameObject previousLevelButton;
-    public GameObject nextLevelButton;
-    public int firstLevelSceneIndex = 1;
-    public int lastLevelSceneIndex = 1;
+    public TMP_Text pauseTitleLabel;
+    public GameObject pausePreviousLevelButton;
+    public GameObject pauseNextLevelButton;
+
+    [Header("UI Victory Items")]
+    public GameObject victoryMenu;
+    public TMP_Text victoryTitleLabel;
+    public GameObject victoryPreviousLevelButton;
+    public GameObject victoryNextLevelButton;
+    public GameObject star1, star2, star3;
+
+    // scene build indexes
+    private int firstLevelSceneIndex = 1;
+    private int lastLevelSceneIndex = 1;
 
     private bool gameIsPaused = false;
 
     void Start()
     {
-        // at start of scene,
-        // turn on level ui
-        turnCounter.SetActive(true);
-        playerStatus.SetActive(true);
-        pauseButton.SetActive(true);
-
-        // check if the scene has a previous and next scene and disable buttons accordingly
-        previousLevelButton.SetActive(HasPreviousLevel());
-        nextLevelButton.SetActive(HasNextLevel());
-
-        // turn off pause menu
-        pauseMenu.SetActive(false);
-        gameIsPaused = false;
+        InitializeLevelUI();
     }
 
     void Update()
@@ -53,6 +55,35 @@ public class PauseMenuManager : MonoBehaviour
                 ResumeGame();
             }
         }
+    }
+
+    // initializes starting state of ui for the level
+    private void InitializeLevelUI()
+    {
+        // at start of scene,
+        // turn on level ui
+        turnCounter.SetActive(true);
+        playerStatus.SetActive(true);
+        pauseButton.SetActive(true);
+
+        // set title of level text
+        pauseTitleLabel.text = "Level " + SceneManager.GetActiveScene().buildIndex;
+        victoryTitleLabel.text = "Level " + SceneManager.GetActiveScene().buildIndex;
+
+        // check if the scene has a previous and next scene and disable buttons accordingly
+        bool hasPreviousLevel = HasPreviousLevel();
+        bool hasNextLevel = HasNextLevel();
+        pausePreviousLevelButton.SetActive(hasPreviousLevel);
+        pauseNextLevelButton.SetActive(hasNextLevel);
+        victoryPreviousLevelButton.SetActive(hasPreviousLevel);
+        victoryNextLevelButton.SetActive(hasNextLevel);
+
+        // turn off pause menu
+        pauseMenu.SetActive(false);
+        gameIsPaused = false;
+
+        // turn off victory menu
+        victoryMenu.SetActive(false);
     }
 
     // returns false if the current level does not have a previous level
@@ -91,6 +122,58 @@ public class PauseMenuManager : MonoBehaviour
 
         Debug.Log("Next level found.");
         return true;
+    }
+
+    // opens the victory screen
+    // displays number of stars earned on level complete
+    public void GoToVictoryScreen(int stars)
+    {
+        // make sure the pause menu is closed
+        if (gameIsPaused)
+        {
+            ResumeGame();
+        }
+
+        // make sure pause button is off
+        pauseButton.SetActive(false);
+
+        // open the victory menu
+        victoryMenu.SetActive(true);
+
+        Debug.Log("Victory! " + stars + " star(s) earned.");
+        // set number of stars
+        // CHANGE TO SPRITE SWAP LATER
+        switch (stars)
+        {
+            case 0:
+                victoryNextLevelButton.SetActive(false);
+                star1.SetActive(false);
+                star2.SetActive(false);
+                star3.SetActive(false);
+                break;
+            case 1:
+                star1.SetActive(true);
+                star2.SetActive(false);
+                star3.SetActive(false);
+                break;
+            case 2:
+                star1.SetActive(true);
+                star2.SetActive(true);
+                star3.SetActive(false);
+                break;
+            case 3:
+                star1.SetActive(true);
+                star2.SetActive(true);
+                star3.SetActive(true);
+                break;
+            default:
+                Debug.Log("Number of stars not recieved for victory screen. Defaulting to zero stars.");
+                victoryNextLevelButton.SetActive(false);
+                star1.SetActive(false);
+                star2.SetActive(false);
+                star3.SetActive(false);
+                break;
+        }
     }
 
     #region Button Functions
@@ -158,13 +241,6 @@ public class PauseMenuManager : MonoBehaviour
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         // reload the scene
         SceneManager.LoadScene(sceneIndex);
-    }
-
-    // opens the settings menu
-    // might change this to just have settings items in the pause menu
-    public void OpenSettings()
-    {
-        Debug.Log("Opening Settings...");
     }
 
     // returns to the main menu scene when exit button is pressed
