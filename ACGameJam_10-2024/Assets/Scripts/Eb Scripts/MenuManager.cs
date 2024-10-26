@@ -8,14 +8,19 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject mainMenuBG;
     public GameObject levelMenuBG;
+    public GameObject settingsMenuBG;
     public GameObject howToMenuBG;
     public GameObject creditsMenuBG;
 
     private void Start()
     {
+        // at start of the scene,
+        // turn on main menu screen
         mainMenuBG.SetActive(true);
+        // turn off all other screens
         levelMenuBG.SetActive(false);
         howToMenuBG.SetActive(false);
+        settingsMenuBG.SetActive(false);
         creditsMenuBG.SetActive(false);
     }
 
@@ -43,6 +48,18 @@ public class MenuManager : MonoBehaviour
 
         // turn on how to play menu
         howToMenuBG.SetActive(true);
+    }
+
+    // goes to the settings screen when SettingsButton is pressed
+    public void GoToSettings()
+    {
+        Debug.Log("Going to Settings...");
+
+        // turn off main menu
+        TurnOffMainMenu();
+
+        // turn on how to play menu
+        settingsMenuBG.SetActive(true);
     }
 
     // goes to the credits screen when CreditsButton is pressed
