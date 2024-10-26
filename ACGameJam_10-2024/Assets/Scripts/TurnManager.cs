@@ -49,7 +49,7 @@ public class TurnManager : MonoBehaviour
     void UpdateInputText()
     {
         int inputsRemaining = maxInputs - inputCount;
-        inputText.text = $"{inputsRemaining}";
+        inputText.text = $"TURN {inputsRemaining}";
     }
 
     void CheckEnemiesRemaining()
