@@ -53,7 +53,7 @@ public class EnemyScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         /*// Check the tag of the colliding object
-        if (collision.CompareTag("Wall"))
+        if (collision.BallMovement)
         {
             Destroy(this.gameObject, 0.5f); // Destroys the object after 2 seconds
         }*/

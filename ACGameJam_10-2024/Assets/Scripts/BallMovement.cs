@@ -119,7 +119,7 @@ public class BallMovement : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D trig)
     {
-        EnemyScript enScript = trig.gameObject.GetComponent<EnemyScript>();
+        EnemyScript enScript = trig.gameObject.GetComponentInParent< EnemyScript>();
         if (enScript != null)
         {
             if (enScript.currentHealth < playerHealth)
