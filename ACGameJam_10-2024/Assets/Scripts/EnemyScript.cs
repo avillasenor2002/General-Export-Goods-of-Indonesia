@@ -50,13 +50,13 @@ public class EnemyScript : MonoBehaviour
         Debug.Log($"Switched to form: {form.formName} with Health: {currentHealth}");
     }
 
-    public void OnCollisionEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check the tag of the colliding object
+        /*// Check the tag of the colliding object
         if (collision.CompareTag("Wall"))
         {
             Destroy(this.gameObject, 0.5f); // Destroys the object after 2 seconds
-        }
+        }*/
     }
 
     public void ChangeForm()
