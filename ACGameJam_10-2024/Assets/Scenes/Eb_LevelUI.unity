@@ -3244,6 +3244,9 @@ MonoBehaviour:
   playerStatus: {fileID: 1228943384}
   pauseButton: {fileID: 999443083}
   pauseMenu: {fileID: 1774767025}
+  previousLevelButton: {fileID: 2139594403}
+  nextLevelButton: {fileID: 2079902565}
+  firstLevelSceneIndex: 1
 --- !u!1 &2079902565
 GameObject:
   m_ObjectHideFlags: 0

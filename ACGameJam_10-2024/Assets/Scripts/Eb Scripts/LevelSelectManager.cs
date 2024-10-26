@@ -9,7 +9,7 @@ public class LevelSelectManager : MonoBehaviour
 {
     public void GoToLevel(string sceneName)
     {
-        Debug.Log("Going to scene" + sceneName + "...");
+        Debug.Log("Going to scene " + sceneName + "...");
 
         SceneManager.LoadScene(sceneName);
     }

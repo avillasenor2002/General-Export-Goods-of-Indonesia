@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 
 // by eb
@@ -12,6 +13,10 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject pauseButton;
 
     public GameObject pauseMenu;
+    public GameObject previousLevelButton;
+    public GameObject nextLevelButton;
+    public int firstLevelSceneIndex = 1;
+    public int lastLevelSceneIndex = 1;
 
     private bool gameIsPaused = false;
 
@@ -22,6 +27,10 @@ public class PauseMenuManager : MonoBehaviour
         turnCounter.SetActive(true);
         playerStatus.SetActive(true);
         pauseButton.SetActive(true);
+
+        // check if the scene has a previous and next scene and disable buttons accordingly
+        previousLevelButton.SetActive(HasPreviousLevel());
+        nextLevelButton.SetActive(HasNextLevel());
 
         // turn off pause menu
         pauseMenu.SetActive(false);
@@ -45,6 +54,46 @@ public class PauseMenuManager : MonoBehaviour
             }
         }
     }
+
+    // returns false if the current level does not have a previous level
+    // otherwise, returns true
+    private bool HasPreviousLevel()
+    {
+        Debug.Log("Checking for previous level...");
+
+        // get the current scene's build index
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // check if this scene is the first level
+        if (sceneIndex == firstLevelSceneIndex)
+        {
+            Debug.Log("No previous level found.");
+            return false;
+        }
+
+        Debug.Log("Previous level found.");
+        return true;
+    }
+
+    // returns false if the current level does not have a next level
+    // otherwise, returns true
+    private bool HasNextLevel()
+    {
+        Debug.Log("Checking for next level...");
+
+        // get the current scene's build index
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // check if this scene is the last level
+        if (sceneIndex == lastLevelSceneIndex)
+        {
+            Debug.Log("No next level found.");
+            return false;
+        }
+
+        Debug.Log("Next level found.");
+        return true;
+    }
+
+    #region Button Functions
 
     // pauses game
     public void PauseGame()
@@ -78,10 +127,37 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    // go to previous level
+    public void GoToPreviousLevel()
+    {
+        Debug.Log("Going to the previous level...");
+
+        // get the current scene's build index
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // go to the previous scene
+        SceneManager.LoadScene(sceneIndex - 1);
+    }
+
+    // go to next level
+    public void GoToNextLevel()
+    {
+        Debug.Log("Going to the next level...");
+
+        // get the current scene's build index
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // go to the next scene
+        SceneManager.LoadScene(sceneIndex + 1);
+    }
+
     // restarts the level when restart button is pressed
     public void RestartLevel()
     {
         Debug.Log("Restarting Level...");
+
+        // get the current scene's build index
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // reload the scene
+        SceneManager.LoadScene(sceneIndex);
     }
 
     // opens the settings menu
@@ -98,4 +174,6 @@ public class PauseMenuManager : MonoBehaviour
 
         SceneManager.LoadScene("Eb_MainMenu");
     }
+
+    #endregion
 }
