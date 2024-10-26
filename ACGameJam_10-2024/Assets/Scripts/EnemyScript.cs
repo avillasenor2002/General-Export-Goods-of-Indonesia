@@ -19,12 +19,20 @@ public class EnemyScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public BallMovement Balls;
     public AlexScreenShake ScreenShake;
+    public Rigidbody2D enemyRB;
     public bool isLaunched;
     public bool isDying;
+    public bool isMyTurn;
+    public GameObject player;
+    public Color solidGhost;
+    public Color transGhost;
 
     void Start()
     {
+        solidGhost = new Color(1, 1, 1, 1);
+        transGhost = new Color(1, 1, 1, 0.5f);
         isDying = false;
+        enemyRB = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Load the initial form from the inspector setting
@@ -37,10 +45,13 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.LogError("No forms found in enemy data!");
         }
-<<<<<<< Updated upstream
-=======
 
-        BallMovement Balls = FindObjectOfType<BallMovement>();
+        player = GameObject.Find("PlayerSlime");
+        if (player != null)
+        {
+            Balls = player.GetComponent<BallMovement>();
+        }
+
         AlexScreenShake ScreenShake = Camera.main.GetComponent<AlexScreenShake>();
 
         if (Balls != null)
@@ -53,7 +64,6 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.Log("No object with TargetScript found in the scene.");
         }
->>>>>>> Stashed changes
     }
 
     void SetForm(int formIndex)
@@ -81,34 +91,22 @@ public class EnemyScript : MonoBehaviour
             if (enScript.currentHealth <= currentHealth)
             {
                 Debug.Log("my health is greater");
-                if (ScreenShake != null)
-                {
-                    ScreenShake.IsShaking();
-                }
+
                 if (isLaunched == true)
                 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    Destroy(gameObject);
-                    StartCoroutine(BelatedDeath(collision.gameObject));
-=======
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
                     enScript.isLaunched = true;
-                    //Destroy(gameObject);
->>>>>>> Stashed changes
-=======
-                    enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
-                    enScript.isLaunched = true;
-                    //Destroy(gameObject);
->>>>>>> Stashed changes
                 }
-                //GrowPlayer(enScript.currentHealth);
             }
         }
     }
 
     IEnumerator BelatedDeath(GameObject enemy)
     {
+        if (ScreenShake != null)
+        {
+            ScreenShake.IsShaking();
+        }
         Debug.Log("killing other enemy");
         yield return new WaitForSeconds(2);
         Destroy(enemy);
@@ -122,6 +120,21 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        // Placeholder for movement logic or other updates
+        if (Balls.isMyTurn == false)
+        {
+            if (Balls.isMoving == false)
+            {
+                if (enemyRB.simulated == true)
+                {
+                    enemyRB.simulated = false;
+                    spriteRenderer.color = Color.gray;
+                }
+                else
+                {
+                    enemyRB.simulated = true;
+                    spriteRenderer.color = Color.white;
+                }
+            }
+        }
     }
 }
