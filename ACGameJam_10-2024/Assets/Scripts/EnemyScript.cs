@@ -88,8 +88,14 @@ public class EnemyScript : MonoBehaviour
                 if (isLaunched == true)
                 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     Destroy(gameObject);
                     StartCoroutine(BelatedDeath(collision.gameObject));
+=======
+                    enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
+                    enScript.isLaunched = true;
+                    //Destroy(gameObject);
+>>>>>>> Stashed changes
 =======
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
                     enScript.isLaunched = true;
