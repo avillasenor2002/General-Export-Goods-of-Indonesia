@@ -37,8 +37,7 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.LogError("No forms found in enemy data!");
         }
-<<<<<<< Updated upstream
-=======
+
 
         BallMovement Balls = FindObjectOfType<BallMovement>();
         AlexScreenShake ScreenShake = Camera.main.GetComponent<AlexScreenShake>();
@@ -53,7 +52,7 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.Log("No object with TargetScript found in the scene.");
         }
->>>>>>> Stashed changes
+
     }
 
     void SetForm(int formIndex)
@@ -87,14 +86,14 @@ public class EnemyScript : MonoBehaviour
                 }
                 if (isLaunched == true)
                 {
-<<<<<<< Updated upstream
-                    Destroy(gameObject);
+
+                    //Destroy(gameObject);
                     StartCoroutine(BelatedDeath(collision.gameObject));
-=======
+
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
                     enScript.isLaunched = true;
                     //Destroy(gameObject);
->>>>>>> Stashed changes
+
                 }
                 //GrowPlayer(enScript.currentHealth);
             }
