@@ -5038,7 +5038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.43
+      value: 13.47
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10549,11 +10549,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.41
+      value: 10.66
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.43
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26173,11 +26173,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.41
+      value: 5.06
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.71
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57427,7 +57427,7 @@ Rigidbody2D:
   m_LinearDrag: 0.5
   m_AngularDrag: 1
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: ab5e650c848f90440988015d0b06a9fd, type: 2}
+  m_Material: {fileID: 6200000, guid: b3314aebb1907c04796603386dc69618, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -57555,7 +57555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd9ec6512f4a0548991b82ddc1486b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulseForce: 10
+  impulseForce: 3
   offsetMag: 0
   isMoving: 0
   clickedOn: 0
@@ -57569,7 +57569,9 @@ MonoBehaviour:
   targetLine: {fileID: 1638852906}
   tracker: {fileID: 1841100735}
   playerHealth: 1
+  playerHealthUpdate: 0
   enemyHealthUpdate: 0
+  playerHealthAdded: 0
   playerSize: {x: 1, y: 1}
   playerGrowing: 0
   screenShake: {fileID: 1434874404}
@@ -57626,20 +57628,29 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0, g: 0, b: 0, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -57654,7 +57665,7 @@ LineRenderer:
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 0
+      atime0: 32960
       atime1: 65535
       atime2: 0
       atime3: 0
@@ -57663,7 +57674,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
