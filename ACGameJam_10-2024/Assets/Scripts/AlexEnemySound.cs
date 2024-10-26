@@ -36,29 +36,30 @@ public class AlexEnemySound : MonoBehaviour
         {
             audioSource.clip = idleSound;
             audioSource.volume = idleVolume;
+            audioSource.loop = true;
             audioSource.Play();
         }
     }
-        public void Walk()
+    public void Walk()
     {
         if(stateInfo.IsName(animationIdleClip.name))
         {
             audioSource.clip = walkSound;
             audioSource.volume = walkVolume;
+            audioSource.loop = true;
             audioSource.Play();
         }
     }
-        public void Attack()
+    public void Attack()
     {
         if(stateInfo.IsName(animationIdleClip.name))
         {
             audioSource.clip = attackSound;
             audioSource.volume = attackVolume;
-            audioSource.loop = true;
             audioSource.PlayOneShot(attackSound);
         }
     }
-        public void Hurt()
+    public void Hurt()
     {
         if(stateInfo.IsName(animationIdleClip.name))
         {
@@ -67,7 +68,7 @@ public class AlexEnemySound : MonoBehaviour
             audioSource.PlayOneShot(hurtSound);
         }
     }
-        public void Death()
+    public void Death()
     {
         if(stateInfo.IsName(animationIdleClip.name))
         {
