@@ -22,6 +22,9 @@ public class EnemyScript : MonoBehaviour
     public bool isLaunched;
     public bool isDying;
 
+    public EnemyDeath DeathPart;
+    public int timeToDie;
+
     void Start()
     {
         isDying = false;
@@ -82,6 +85,8 @@ public class EnemyScript : MonoBehaviour
                 if (ScreenShake != null)
                 {
                     ScreenShake.IsShaking();
+                    DeathPart.duration = timeToDie;
+                    DeathPart.StartCoroutine(DeathPart.FlickerEffect());
                 }
                 if (isLaunched == true)
                 {
@@ -89,7 +94,6 @@ public class EnemyScript : MonoBehaviour
                     StartCoroutine(BelatedDeath(collision.gameObject));
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
                     enScript.isLaunched = true;
-
                 }
                 //GrowPlayer(enScript.currentHealth);
             }
@@ -98,8 +102,10 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator BelatedDeath(GameObject enemy)
     {
+        DeathPart.duration = timeToDie;
+        DeathPart.StartCoroutine(DeathPart.FlickerEffect());
         Debug.Log("killing other enemy");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(timeToDie);
         Destroy(enemy);
     }
 
