@@ -90,8 +90,9 @@ public class BallMovement : MonoBehaviour
                 if (offsetMag > 5)
                 {
                     offsetMag = 5;
+                    Vector2 newPos = (transform.position - tracker.transform.position)*-1;
                     targetLine.SetPosition(0, transform.position);
-                    targetLine.SetPosition(1, tracker.transform.position);
+                    targetLine.SetPosition(1, transform.position + Vector3.ClampMagnitude(newPos, offsetMag));
                 }
                 else if (offsetMag < 0.1f)
                 {
