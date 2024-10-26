@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5034860520974401107}
   - component: {fileID: 446924992501220363}
   - component: {fileID: 1545239650058488861}
+  - component: {fileID: -3461256061552708054}
   - component: {fileID: 5395639071166012334}
   - component: {fileID: 5089437778176411996}
   - component: {fileID: 3329038839143704625}
@@ -98,7 +99,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 3719822343131371042}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 820b2fc1ca16b2f4582a7545f0c6542a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -124,6 +125,41 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!58 &-3461256061552708054
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3719822343131371042}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.8
 --- !u!50 &5395639071166012334
 Rigidbody2D:
   serializedVersion: 4
@@ -137,10 +173,10 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.4
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 820b2fc1ca16b2f4582a7545f0c6542a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -167,6 +203,10 @@ MonoBehaviour:
   initialFormIndex: 0
   currentFormIndex: 0
   currentHealth: 0
+  Balls: {fileID: 0}
+  ScreenShake: {fileID: 0}
+  isLaunched: 0
+  isDying: 0
 --- !u!96 &3329038839143704625
 TrailRenderer:
   serializedVersion: 3
