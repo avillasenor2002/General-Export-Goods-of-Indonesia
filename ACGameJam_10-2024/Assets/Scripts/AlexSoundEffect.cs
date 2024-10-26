@@ -8,9 +8,11 @@ public class AlexSoundEffect : MonoBehaviour
     //Place the clip
     public AudioClip sound;
     public float volume;
-    void Start()
+    void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        audioSource = this.gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.volume = volume;
     }
     private void OnCollisionEnter2D(Collision2D collision) 
     {
