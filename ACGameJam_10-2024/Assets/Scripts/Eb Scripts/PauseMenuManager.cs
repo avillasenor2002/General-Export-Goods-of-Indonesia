@@ -28,9 +28,9 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject victoryNextLevelButton;
     public GameObject star1, star2, star3;
 
-    [Header("Scene Build Indexes")]
-    public int firstLevelSceneIndex = 1;
-    public int lastLevelSceneIndex = 1;
+    // scene build indexes
+    private int firstLevelSceneIndex = 1;
+    private int lastLevelSceneIndex = 1;
 
     private bool gameIsPaused = false;
 
