@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class BallMovement : MonoBehaviour
 {
+    //movement script variables
     public float impulseForce;
     public float offsetMag;
 
@@ -16,6 +17,7 @@ public class BallMovement : MonoBehaviour
 
     public Vector2 mousePoint;
     public Vector2 screenPoint;
+    public Vector2 mousePosition;
 
     public Vector3 thisPoint;
     public Vector3 targetPoint;
@@ -25,11 +27,15 @@ public class BallMovement : MonoBehaviour
 
     public GameObject tracker;
 
+    //player stats variables
+    public int playerHealth;
+    public int enemyHealth;
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
         targetLine = GetComponent<LineRenderer>();
+        targetLine.enabled = false;
     }
 
     //the player must be clicked on to activate the movement script
@@ -38,13 +44,14 @@ public class BallMovement : MonoBehaviour
         clickedOn = true;
     }
 
+    // Update is called once per frame
     void Update()
     {
         //records mouse position when M1 is held down, points player at mouse position
         if (Input.GetMouseButton(0))
         {
             //if the player was clicked on, executes code; otherwise it does nothing
-            if (clickedOn)
+            if (clickedOn == true)
             {
                 //shows the line between mouse cursor and player
                 targetLine.enabled = true;
@@ -63,10 +70,6 @@ public class BallMovement : MonoBehaviour
                 float lookAngle = Mathf.Atan2(mousePoint.x, mousePoint.y) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, -lookAngle));
 
-                //draws the line between targeter and player
-                targetLine.SetPosition(0, transform.position);
-                targetLine.SetPosition(1, tracker.transform.position);
-
                 //takes in the magnitude of distance between the cursor and the player
                 offsetAmount = transform.position - tracker.transform.position;
                 offsetMag = offsetAmount.magnitude;
@@ -75,20 +78,40 @@ public class BallMovement : MonoBehaviour
                 if (offsetMag > 5)
                 {
                     offsetMag = 5;
+                    targetLine.SetPosition(0, transform.position);
+                    targetLine.SetPosition(1, tracker.transform.position);
                 }
                 else if (offsetMag < 0.1f)
                 {
                     offsetMag = 1;
+                }
+
+                //draws the line between targeter and player
+                if (offsetMag < 5)
+                {
+                    targetLine.SetPosition(0, transform.position);
+                    targetLine.SetPosition(1, tracker.transform.position);
                 }
             }
         }
         //adds force onto player in the opposite direction it's looking
         if (Input.GetMouseButtonUp(0))
         {
-            //resets everything to normal, and adds a force dependent on magnitude of distance between the player and cursor
-            clickedOn = false;
-            targetLine.enabled = false;
-            playerRB.AddForce(transform.up*(offsetMag*-3), ForceMode2D.Impulse);
+            if (clickedOn == true)
+            {
+                //resets everything to normal, and adds a force dependent on magnitude of distance between the player and cursor
+                clickedOn = false;
+                targetLine.enabled = false;
+                playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
+            }
         }
     }
+
+    //void GrowPlayer()
+    //{
+    //    if (EnemyScript.Health > playerhealth)
+    //    {
+    //        transform.localScale = new Vector2()
+    //    }
+    //}
 }
