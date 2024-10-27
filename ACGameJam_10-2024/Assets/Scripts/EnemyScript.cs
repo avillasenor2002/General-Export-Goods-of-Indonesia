@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [System.Serializable]
@@ -28,6 +29,7 @@ public class EnemyScript : MonoBehaviour
     public bool amIDead;
     public float enemySize;
     public string spriteName;
+    public TextMeshProUGUI strengthText;
 
     public ParticleSystem defeatParticles;
 
@@ -86,6 +88,7 @@ public class EnemyScript : MonoBehaviour
 
         transform.localScale = new Vector2(enemySize, enemySize);
         currentHealth = form.health;
+        strengthText.text = currentHealth.ToString();
 
         if (form.formSprite != null && spriteRenderer != null)
         {
