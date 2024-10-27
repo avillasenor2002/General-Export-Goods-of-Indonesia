@@ -37,6 +37,7 @@ public class BallMovement : MonoBehaviour
     public int enemyHealthUpdate;
     public int playerHealthAdded;
     public int turnEnd;
+    public int turnAmount;
 
     public Vector2 playerSize;
 
@@ -140,6 +141,7 @@ public class BallMovement : MonoBehaviour
         {
             isMoving = false;
             isMyTurn = true;
+            turnAmount++;
         }
 
         if (playerGrowing == true)
