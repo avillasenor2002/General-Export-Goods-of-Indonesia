@@ -174,6 +174,7 @@ public class BallMovement : MonoBehaviour
             {
                 if (enScript.isDying == false)
                 {
+                    enScript.amIDead = true;
                     enScript.isDying= true;
                     if (screenShake != null)
                     {
@@ -218,6 +219,7 @@ public class BallMovement : MonoBehaviour
             screenShake.IsShaking();
         }
         Debug.Log("killing this enemy");
+        
         yield return new WaitForSeconds(2);
         Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
 

@@ -25,6 +25,7 @@ public class EnemyScript : MonoBehaviour
     public AlexScreenShake ScreenShake;
     public bool isLaunched;
     public bool isDying;
+    public bool amIDead;
     public float enemySize;
     public string spriteName;
 
@@ -128,6 +129,7 @@ public class EnemyScript : MonoBehaviour
                 //GrowPlayer(enScript.currentHealth);
             }
         }
+
     }
 
     IEnumerator BelatedDeath(GameObject enemy)
@@ -176,6 +178,12 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        // Additional logic can be added here
+        if (amIDead == true)
+        {
+            if (myAnimator != null && enemyData.forms[currentFormIndex].death != null)
+            {
+                myAnimator.Play(enemyData.forms[currentFormIndex].death.name);
+            }
+        }
     }
 }
