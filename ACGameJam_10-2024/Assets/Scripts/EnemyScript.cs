@@ -27,6 +27,8 @@ public class EnemyScript : MonoBehaviour
     public EnemyDeath DeathPart;
     public int timeToDie;
 
+    public GameObject skeletonBonePile;
+
     void Start()
     {
         isDying = false;
@@ -115,6 +117,13 @@ public class EnemyScript : MonoBehaviour
         Debug.Log("killing other enemy");
         yield return new WaitForSeconds(2);
         Instantiate(defeatParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
+
+        Debug.Log("Current form is " + currentFormIndex);
+        if(currentFormIndex == 8)
+        {
+            Instantiate(skeletonBonePile, enemy.transform.position, Quaternion.identity);
+        }
+        
         Destroy(enemy);
     }
 

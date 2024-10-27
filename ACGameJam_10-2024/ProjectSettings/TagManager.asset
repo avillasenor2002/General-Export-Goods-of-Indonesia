@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< HEAD
   tags: []
+=======
+  tags:
+  - Wall
+  - Enemy
+  - Floor
+  - Pit
+>>>>>>> main
   layers:
   - Default
   - TransparentFX

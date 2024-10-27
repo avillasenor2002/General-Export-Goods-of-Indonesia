@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TurnManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class TurnManager : MonoBehaviour
 
     private int inputCount = 0;
     private int initialEnemyCount;
+    public event Action<int> OnInputCountChanged;
 
     // variables added by eb!
     [Header("Progress Bar Items")]
@@ -36,6 +38,7 @@ public class TurnManager : MonoBehaviour
 
     void Start()
     {
+        inputCount = 0;
         PositionProgressStars();
 
         UpdateInputText();
@@ -43,24 +46,35 @@ public class TurnManager : MonoBehaviour
         initialEnemyCount = FindObjectsOfType<EnemyScript>().Length;
         UpdateProgressBar(); // Initial update for progress bar
         CheckEnemiesRemaining(); // Initial check for enemy count
+
+        StartCoroutine(InitializeInputCount());
+    }
+
+    IEnumerator InitializeInputCount()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        OnInputCountChanged?.Invoke(inputCount);
     }
 
     void Update()
     {
         // Check for any input
-        /*if (Input.anyKeyDown)
+        if (Input.anyKeyDown)
         {
             CountInput();
-        }*/
+        }
 
         // Continuously check for the number of active enemies
         CheckEnemiesRemaining();
     }
 
-    void CountInput()
+    public void CountInput()
     {
+        Debug.Log("Counting Input");
         inputCount++;
         UpdateInputText();
+        OnInputCountChanged?.Invoke(inputCount);
 
         // Check if input count has reached the maximum threshold
         if (inputCount >= maxInputs)

@@ -37,6 +37,7 @@ public class BallMovement : MonoBehaviour
     public int enemyHealthUpdate;
     public int playerHealthAdded;
     public int turnEnd;
+    public int turnAmount;
 
     public Vector2 playerSize;
 
@@ -140,6 +141,7 @@ public class BallMovement : MonoBehaviour
         {
             isMoving = false;
             isMyTurn = true;
+            turnAmount++;
         }
 
         if (playerGrowing == true)
@@ -165,9 +167,11 @@ public class BallMovement : MonoBehaviour
                         screenShake.IsShaking();
                     }
                     playerHealthAdded = playerHealth + 5;
-                    playerHealthUpdate = playerHealthAdded + enScript.currentHealth;
-                    playerHealth = playerHealth +enScript.currentHealth;
-                    //GrowPlayer(enScript.currentHealth);
+                    if (enScript.currentHealth == playerHealth)
+                    {
+                        playerHealthUpdate = playerHealthAdded + 1;
+                        playerHealth = playerHealth + 1;
+                    }
                     playerGrowing = true;
                     enScript.isLaunched = true;
                     StartCoroutine(BelatedDeath(col.gameObject));
@@ -198,6 +202,14 @@ public class BallMovement : MonoBehaviour
         Debug.Log("killing this enemy");
         yield return new WaitForSeconds(2);
         Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
+
+        EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+        Debug.Log("Current form is " + enemyScript.currentFormIndex);
+        if (enemyScript.currentFormIndex == 8)
+        {
+            Instantiate(enemyScript.skeletonBonePile, enemy.transform.position, Quaternion.identity);
+        }
+
         Destroy(enemy);
     }
 
@@ -205,7 +217,7 @@ public class BallMovement : MonoBehaviour
     {
         SpriteRenderer spriteRenderer;
         spriteRenderer = enemy.GetComponent<SpriteRenderer>();
-        while (true)
+        while (spriteRenderer != null)
         {
             spriteRenderer.color = Color.white;
             yield return new WaitForSeconds(0.1f);
