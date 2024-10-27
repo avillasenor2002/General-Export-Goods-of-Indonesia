@@ -11,6 +11,8 @@ public class BallMovement : MonoBehaviour
     public float offsetMag;
 
     public bool isMoving;
+    public bool isMyTurn;
+    public bool enemyTurn= false;
     public bool clickedOn;
 
     public Rigidbody2D playerRB;
@@ -32,18 +34,21 @@ public class BallMovement : MonoBehaviour
     public int playerHealthUpdate;
     public int enemyHealthUpdate;
     public int playerHealthAdded;
+    public int turnEnd;
 
     public Vector2 playerSize;
 
     public bool playerGrowing;
 
-    public AlexScreenShake screenShake;
+    public AlexScreenShake screenShake; 
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
         targetLine = GetComponent<LineRenderer>();
         targetLine.enabled = false;
+        turnEnd = 0;
+        isMyTurn = true;
     }
 
     //the player must be clicked on to activate the movement script
@@ -117,6 +122,8 @@ public class BallMovement : MonoBehaviour
                 isMoving = true;
                 targetLine.enabled = false;
                 playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
+                turnEnd = 0;
+                isMyTurn = false;
             }
         }
 
@@ -127,9 +134,10 @@ public class BallMovement : MonoBehaviour
                 playerRB.velocity = new Vector2 (Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
             }
         }
-        if (playerRB.velocity.magnitude == 0)
+        if ((playerRB.velocity.magnitude == 0)&& isMyTurn==false)
         {
             isMoving = false;
+            isMyTurn = true;
         }
 
         if (playerGrowing == true)
