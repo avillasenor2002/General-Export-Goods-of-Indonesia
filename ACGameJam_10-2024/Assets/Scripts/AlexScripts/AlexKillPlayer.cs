@@ -8,10 +8,9 @@ public class AlexKillPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) 
     {
-        if(collision.collider.CompareTag(Tag))
-        {
+
             Debug.Log("Hit!");
-            Destroy(gameObject);
-        }
+            Destroy(collision.gameObject);
+
     }
 }

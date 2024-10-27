@@ -169,8 +169,13 @@ public class BallMovement : MonoBehaviour
                     playerHealthAdded = playerHealth + 5;
                     if (enScript.currentHealth == playerHealth)
                     {
+                        Debug.Log("Adding health");
                         playerHealthUpdate = playerHealthAdded + 1;
                         playerHealth = playerHealth + 1;
+                    }
+                    else
+                    {
+
                     }
                     playerGrowing = true;
                     enScript.isLaunched = true;
