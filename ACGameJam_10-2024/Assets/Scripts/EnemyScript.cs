@@ -8,7 +8,9 @@ public class EnemyForm
     public string formName;
     public int health;
     public float size;
-    
+    public AnimationClip idle;
+    public AnimationClip death;
+
     public Sprite formSprite; // Optional: Change the appearance based on form
 }
 
@@ -31,6 +33,7 @@ public class EnemyScript : MonoBehaviour
     public int timeToDie;
 
     public GameObject skeletonBonePile;
+    public Animator myAnimator;
 
     void Start()
     {
@@ -47,7 +50,6 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.LogError("No forms found in enemy data!");
         }
-
 
         BallMovement Balls = FindObjectOfType<BallMovement>();
         AlexScreenShake ScreenShake = Camera.main.GetComponent<AlexScreenShake>();
@@ -68,13 +70,12 @@ public class EnemyScript : MonoBehaviour
     {
         if (enemyData == null || formIndex < 0 || formIndex >= enemyData.forms.Count) return;
 
-        
         currentFormIndex = formIndex;
         EnemyForm form = enemyData.forms[formIndex];
-        enemySize = 1+(form.size/3);
+        enemySize = 1 + (form.size / 3);
         if (enemySize < 1)
         {
-            enemySize =1;
+            enemySize = 1;
         }
         transform.localScale = new Vector2(enemySize, enemySize);
         currentHealth = form.health;
@@ -82,6 +83,12 @@ public class EnemyScript : MonoBehaviour
         if (form.formSprite != null && spriteRenderer != null)
         {
             spriteRenderer.sprite = form.formSprite;
+        }
+
+        // Play the idle animation for the current form if available
+        if (form.idle != null && myAnimator != null)
+        {
+            myAnimator.Play(form.idle.name);
         }
 
         Debug.Log($"Switched to form: {form.formName} with Health: {currentHealth}");
@@ -108,7 +115,6 @@ public class EnemyScript : MonoBehaviour
                 }
                 if (isLaunched == true)
                 {
-
                     StartCoroutine(BelatedDeath(collision.gameObject));
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
                     enScript.isLaunched = true;
@@ -125,15 +131,23 @@ public class EnemyScript : MonoBehaviour
             ScreenShake.IsShaking();
         }
         Debug.Log("killing other enemy");
+
+        // Play the death animation if available
+        if (myAnimator != null && enemyData.forms[currentFormIndex].death != null)
+        {
+            myAnimator.Play(enemyData.forms[currentFormIndex].death.name);
+        }
+
         yield return new WaitForSeconds(2);
+
         Instantiate(defeatParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
 
         Debug.Log("Current form is " + currentFormIndex);
-        if(currentFormIndex == 8)
+        if (currentFormIndex == 8)
         {
             Instantiate(skeletonBonePile, enemy.transform.position, Quaternion.identity);
         }
-        
+
         Destroy(enemy);
     }
 
@@ -156,6 +170,6 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-
+        // Additional logic can be added here
     }
 }
