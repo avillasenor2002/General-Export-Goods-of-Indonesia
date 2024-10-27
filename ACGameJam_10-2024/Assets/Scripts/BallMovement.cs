@@ -167,9 +167,16 @@ public class BallMovement : MonoBehaviour
                         screenShake.IsShaking();
                     }
                     playerHealthAdded = playerHealth + 5;
-                    playerHealthUpdate = playerHealthAdded + enScript.currentHealth;
-                    playerHealth = playerHealth +enScript.currentHealth;
-                    //GrowPlayer(enScript.currentHealth);
+                    if (enScript.currentHealth == playerHealth)
+                    {
+                        Debug.Log("Adding health");
+                        playerHealthUpdate = playerHealthAdded + 1;
+                        playerHealth = playerHealth + 1;
+                    }
+                    else
+                    {
+
+                    }
                     playerGrowing = true;
                     enScript.isLaunched = true;
                     StartCoroutine(BelatedDeath(col.gameObject));
@@ -190,14 +197,6 @@ public class BallMovement : MonoBehaviour
         }
     }
 
-    public void OnTriggerStay2D(Collider2D col)
-    {
-        if ((col.gameObject.tag == "Pit") && (col.gameObject.tag != "Floor"))
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
     //kills the collided equal enemy after 2 seconds
     IEnumerator BelatedDeath(GameObject enemy)
     {
@@ -208,6 +207,14 @@ public class BallMovement : MonoBehaviour
         Debug.Log("killing this enemy");
         yield return new WaitForSeconds(2);
         Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
+
+        EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+        Debug.Log("Current form is " + enemyScript.currentFormIndex);
+        if (enemyScript.currentFormIndex == 8)
+        {
+            Instantiate(enemyScript.skeletonBonePile, enemy.transform.position, Quaternion.identity);
+        }
+
         Destroy(enemy);
     }
 
@@ -215,7 +222,7 @@ public class BallMovement : MonoBehaviour
     {
         SpriteRenderer spriteRenderer;
         spriteRenderer = enemy.GetComponent<SpriteRenderer>();
-        while (true)
+        while (spriteRenderer != null)
         {
             spriteRenderer.color = Color.white;
             yield return new WaitForSeconds(0.1f);

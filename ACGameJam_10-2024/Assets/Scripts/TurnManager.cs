@@ -60,10 +60,10 @@ public class TurnManager : MonoBehaviour
     void Update()
     {
         // Check for any input
-        /*if (Input.anyKeyDown)
+        if (Input.anyKeyDown)
         {
             CountInput();
-        }*/
+        }
 
         // Continuously check for the number of active enemies
         CheckEnemiesRemaining();

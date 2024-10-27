@@ -122,7 +122,7 @@ public class EnemyScript : MonoBehaviour
         Debug.Log("Current form is " + currentFormIndex);
         if(currentFormIndex == 8)
         {
-            Instantiate(skeletonBonePile, this.transform.position, Quaternion.identity);
+            Instantiate(skeletonBonePile, enemy.transform.position, Quaternion.identity);
         }
         
         Destroy(enemy);
