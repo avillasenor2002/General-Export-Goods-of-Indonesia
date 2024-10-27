@@ -30,7 +30,7 @@ public class PauseMenuManager : MonoBehaviour
 
     // scene build indexes
     private int firstLevelSceneIndex = 1;
-    private int lastLevelSceneIndex = 1;
+    private int lastLevelSceneIndex = 7;
 
     private bool gameIsPaused = false;
 

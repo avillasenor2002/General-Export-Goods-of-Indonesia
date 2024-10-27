@@ -210,15 +210,13 @@ MonoBehaviour:
   ScreenShake: {fileID: 0}
   isLaunched: 0
   isDying: 0
-  amIDead: 0
   enemySize: 0
   spriteName: 
-  strengthText: {fileID: 0}
   defeatParticles: {fileID: 8134874074148620406, guid: 3ce392e6c5bf7ce45a8e29348a8267c3, type: 3}
   DeathPart: {fileID: 0}
   timeToDie: 0
   skeletonBonePile: {fileID: 0}
-  myAnimator: {fileID: 0}
+  myAnimator: {fileID: 4420411715137477060}
 --- !u!96 &3329038839143704625
 TrailRenderer:
   serializedVersion: 3
