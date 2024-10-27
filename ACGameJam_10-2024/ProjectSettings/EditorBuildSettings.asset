@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Conrad_5BouncyCastle.unity
     guid: 6d0fe4665b8ecef418c469b733e140ea
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Andrew - Haunted Halls.unity
     guid: ac87dec372daca14ca3d4eb76dd5d2cd
   - enabled: 1
