@@ -208,6 +208,14 @@ public class BallMovement : MonoBehaviour
         Debug.Log("killing this enemy");
         yield return new WaitForSeconds(2);
         Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
+
+        EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+        Debug.Log("Current form is " + enemyScript.currentFormIndex);
+        if (enemyScript.currentFormIndex == 8)
+        {
+            Instantiate(enemyScript.skeletonBonePile, enemy.transform.position, Quaternion.identity);
+        }
+
         Destroy(enemy);
     }
 
@@ -215,7 +223,7 @@ public class BallMovement : MonoBehaviour
     {
         SpriteRenderer spriteRenderer;
         spriteRenderer = enemy.GetComponent<SpriteRenderer>();
-        while (true)
+        while (spriteRenderer != null)
         {
             spriteRenderer.color = Color.white;
             yield return new WaitForSeconds(0.1f);
