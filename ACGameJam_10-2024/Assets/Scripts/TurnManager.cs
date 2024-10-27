@@ -65,7 +65,7 @@ public class TurnManager : MonoBehaviour
         // Check if input count has reached the maximum threshold
         if (inputCount >= maxInputs)
         {
-            ShowEndScreen();  // Show loss screen instead of immediately fading to black
+            ShowEndScreen(starsEarned);  // Show loss screen instead of immediately fading to black
         }
     }
 
@@ -81,17 +81,17 @@ public class TurnManager : MonoBehaviour
 
         if (enemyCount <= 0)
         {
-            ShowEndScreen();
+            ShowEndScreen(starsEarned);
         }
 
         UpdateProgressBar(); // Update progress bar based on remaining enemies
     }
 
     // added by eb!
-    public void ShowEndScreen()
+    public void ShowEndScreen(int finalStarsEarned)
     {
         // call the menu manager to show the end screen with the amount of stars achieved
-        pauseMenuManager.GoToVictoryScreen(starsEarned);
+        pauseMenuManager.GoToVictoryScreen(finalStarsEarned);
 
         // fade to black
         StartCoroutine(FadeToBlack());
@@ -166,12 +166,12 @@ public class TurnManager : MonoBehaviour
 
             // check if player earned star(s)
             int newStarsEarned = 0;
-            if(progressPercent >= progressGoal1)
+            if (progressPercent >= progressGoal1)
             {
                 newStarsEarned = 1;
             }
 
-            if(progressPercent >= progressGoal2)
+            if (progressPercent >= progressGoal2)
             {
                 newStarsEarned = 2;
             }
@@ -189,7 +189,7 @@ public class TurnManager : MonoBehaviour
     // shows progress stars if the player has earned more
     private void UpdateProgressStars(int newStarsEarned)
     {
-        if(newStarsEarned == starsEarned)
+        if (newStarsEarned == starsEarned)
         {
             return;
         }
@@ -225,3 +225,5 @@ public class TurnManager : MonoBehaviour
         }
     }
 }
+
+
