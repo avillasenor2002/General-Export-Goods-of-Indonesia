@@ -7,6 +7,7 @@ public class EnemyForm
 {
     public string formName;
     public int health;
+    public float size;
     public Sprite formSprite; // Optional: Change the appearance based on form
 }
 
