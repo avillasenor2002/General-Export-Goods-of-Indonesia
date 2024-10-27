@@ -34,9 +34,9 @@ MonoBehaviour:
   - formName: Doctor - 3
     health: 4
     size: 4
-    idle: {fileID: 0}
-    death: {fileID: 0}
-    formSprite: {fileID: 21300000, guid: 87862c86ae510054a89f0782c39f64e3, type: 3}
+    idle: {fileID: 7400000, guid: de343a20b32f7164caf680567104df43, type: 2}
+    death: {fileID: 7400000, guid: fccac19aa8395c744a2745a4cc214ddf, type: 2}
+    formSprite: {fileID: 1472157950, guid: 0ac3d42c5623b0a458050efae3fad169, type: 3}
   - formName: Goblin - 4
     health: 5
     size: 5
