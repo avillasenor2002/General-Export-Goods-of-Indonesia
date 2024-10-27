@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class BallMovement : MonoBehaviour
 {
@@ -39,11 +40,16 @@ public class BallMovement : MonoBehaviour
 
     public AlexScreenShake screenShake;
 
+    public TurnManager turnManager;
+    public TMP_Text playerLevelLabel;
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
         targetLine = GetComponent<LineRenderer>();
         targetLine.enabled = false;
+
+        playerLevelLabel.text = "LVL " + playerHealth + "!";
     }
 
     //the player must be clicked on to activate the movement script
@@ -157,6 +163,7 @@ public class BallMovement : MonoBehaviour
                     playerHealthAdded = playerHealth + 5;
                     playerHealthUpdate = playerHealthAdded + enScript.currentHealth;
                     playerHealth = playerHealth +enScript.currentHealth;
+                    playerLevelLabel.text = "LVL " + playerHealth + "!";
                     //GrowPlayer(enScript.currentHealth);
                     playerGrowing = true;
                     enScript.isLaunched = true;
@@ -173,6 +180,8 @@ public class BallMovement : MonoBehaviour
                 Destroy(this.gameObject);
                 col.rigidbody.drag = 1000;
                 col.rigidbody.angularDrag = 1000;
+
+                turnManager.ShowEndScreen(0); // gives player 0 stars if they die
             }
         }
     }
@@ -196,5 +205,7 @@ public class BallMovement : MonoBehaviour
             transform.localScale = new Vector2(playerHealthUpdate,playerHealthUpdate);
             playerGrowing = false;
         }
+
+
     }
 }
