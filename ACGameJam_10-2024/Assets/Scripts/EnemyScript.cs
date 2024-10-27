@@ -184,6 +184,12 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        // Additional logic can be added here
+        if (isDying)
+        {
+            if (myAnimator != null && enemyData.forms[currentFormIndex].death != null)
+            {
+                myAnimator.Play(enemyData.forms[currentFormIndex].death.name);
+            }
+        }
     }
 }
