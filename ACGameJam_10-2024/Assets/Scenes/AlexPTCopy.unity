@@ -33017,6 +33017,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932533861}
   m_CullTransparentMesh: 1
+--- !u!1001 &933758514
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 882827332881464657, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: SFXSlider
+      value: 
+      objectReference: {fileID: 1779156439}
+    - target: {fileID: 882827332881464657, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: musicSlider
+      value: 
+      objectReference: {fileID: 714230793}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.5372167
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.394153
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5250.2515
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800966908329478670, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684495148419107086, guid: 836762d8f460c984281a958ac4351c97, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 836762d8f460c984281a958ac4351c97, type: 3}
 --- !u!1 &992654273
 GameObject:
   m_ObjectHideFlags: 0
@@ -59736,6 +59801,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db8cdbc4c7940c49a8afd6317424c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  elapseTime: 0
+  durationTime: 1
+  shakeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  isShaking: 0
 --- !u!1 &1436923172
 GameObject:
   m_ObjectHideFlags: 0
@@ -60162,6 +60236,8 @@ MonoBehaviour:
   impulseForce: 10
   offsetMag: 0
   isMoving: 0
+  isMyTurn: 0
+  enemyTurn: 0
   clickedOn: 0
   playerRB: {fileID: 1638852901}
   mousePoint: {x: 0, y: 0}
@@ -60171,11 +60247,14 @@ MonoBehaviour:
   targetPoint: {x: 0, y: 0, z: 0}
   offsetAmount: {x: 0, y: 0, z: 0}
   targetLine: {fileID: 1638852906}
+  deathParticles: {fileID: 0}
   tracker: {fileID: 1841100735}
   playerHealth: 1
   playerHealthUpdate: 0
   enemyHealthUpdate: 0
   playerHealthAdded: 0
+  turnEnd: 0
+  turnAmount: 0
   playerSize: {x: 1, y: 1}
   playerGrowing: 0
   screenShake: {fileID: 1434874404}
@@ -65980,7 +66059,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1599293177}
   m_HandleRect: {fileID: 1020059178}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -86950,4 +87029,5 @@ SceneRoots:
   - {fileID: 60212078}
   - {fileID: 358577361}
   - {fileID: 1354661706}
+  - {fileID: 933758514}
   - {fileID: 610631413}
