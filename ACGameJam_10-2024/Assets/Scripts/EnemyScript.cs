@@ -8,6 +8,7 @@ public class EnemyForm
     public string formName;
     public int health;
     public float size;
+    
     public Sprite formSprite; // Optional: Change the appearance based on form
 }
 
@@ -22,6 +23,7 @@ public class EnemyScript : MonoBehaviour
     public AlexScreenShake ScreenShake;
     public bool isLaunched;
     public bool isDying;
+    public float enemySize;
 
     public ParticleSystem defeatParticles;
 
@@ -66,8 +68,15 @@ public class EnemyScript : MonoBehaviour
     {
         if (enemyData == null || formIndex < 0 || formIndex >= enemyData.forms.Count) return;
 
+        
         currentFormIndex = formIndex;
         EnemyForm form = enemyData.forms[formIndex];
+        enemySize = 1+(form.size/3);
+        if (enemySize < 1)
+        {
+            enemySize =1;
+        }
+        transform.localScale = new Vector2(enemySize, enemySize);
         currentHealth = form.health;
 
         if (form.formSprite != null && spriteRenderer != null)

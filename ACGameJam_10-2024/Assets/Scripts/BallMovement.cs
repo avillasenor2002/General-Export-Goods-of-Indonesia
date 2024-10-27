@@ -28,6 +28,7 @@ public class BallMovement : MonoBehaviour
     public LineRenderer targetLine;
 
     public ParticleSystem deathParticles;
+    public ParticleSystem haltParticles;
 
     public GameObject tracker;
 
@@ -130,6 +131,18 @@ public class BallMovement : MonoBehaviour
             }
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            playerRB.velocity = Vector2.zero;
+            turnEnd = 0;
+            Instantiate(haltParticles, transform.position, Quaternion.identity);
+            turnAmount++;
+            if (screenShake != null)
+            {
+                screenShake.IsShaking();
+            }
+        }
+
         if (playerRB.velocity.magnitude <= 0.8f)
         {
             if (playerRB.velocity.magnitude >= 0)
@@ -170,7 +183,7 @@ public class BallMovement : MonoBehaviour
                     if (enScript.currentHealth == playerHealth)
                     {
                         Debug.Log("Adding health");
-                        playerHealthUpdate = playerHealthAdded + 1;
+                        playerHealthUpdate = playerHealthAdded + playerHealth+2;
                         playerHealth = playerHealth + 1;
                     }
                     else
