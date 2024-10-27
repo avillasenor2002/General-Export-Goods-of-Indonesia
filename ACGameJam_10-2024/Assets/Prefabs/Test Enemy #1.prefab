@@ -351,7 +351,7 @@ MonoBehaviour:
   DeathPart: {fileID: 0}
   timeToDie: 0
   skeletonBonePile: {fileID: 0}
-  myAnimator: {fileID: 0}
+  myAnimator: {fileID: 4420411715137477060}
 --- !u!96 &3329038839143704625
 TrailRenderer:
   serializedVersion: 3

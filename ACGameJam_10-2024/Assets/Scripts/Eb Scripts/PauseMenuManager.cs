@@ -30,9 +30,16 @@ public class PauseMenuManager : MonoBehaviour
 
     // scene build indexes
     private int firstLevelSceneIndex = 1;
-    private int lastLevelSceneIndex = 1;
+    private int lastLevelSceneIndex = 7;
 
     private bool gameIsPaused = false;
+
+    private SFXPlayer sfxPlayer;
+
+    void Awake()
+    {
+        sfxPlayer = GameObject.Find("GameManager").GetComponent<SFXPlayer>();
+    }
 
     void Start()
     {
@@ -128,6 +135,12 @@ public class PauseMenuManager : MonoBehaviour
     // displays number of stars earned on level complete
     public void GoToVictoryScreen(int stars)
     {
+        if (victoryMenu.activeSelf)
+        {
+            // ONLY CALL THE VICTORY SCREEN ONCE
+            return;
+        }
+
         // make sure the pause menu is closed
         if (gameIsPaused)
         {
@@ -146,22 +159,26 @@ public class PauseMenuManager : MonoBehaviour
         switch (stars)
         {
             case 0:
+                sfxPlayer.PlaySoundName("win1");
                 victoryNextLevelButton.SetActive(false);
                 star1.SetActive(false);
                 star2.SetActive(false);
                 star3.SetActive(false);
                 break;
             case 1:
+                sfxPlayer.PlaySoundName("win1");
                 star1.SetActive(true);
                 star2.SetActive(false);
                 star3.SetActive(false);
                 break;
             case 2:
+                sfxPlayer.PlaySoundName("win1");
                 star1.SetActive(true);
                 star2.SetActive(true);
                 star3.SetActive(false);
                 break;
             case 3:
+                sfxPlayer.PlaySoundName("win1");
                 star1.SetActive(true);
                 star2.SetActive(true);
                 star3.SetActive(true);
