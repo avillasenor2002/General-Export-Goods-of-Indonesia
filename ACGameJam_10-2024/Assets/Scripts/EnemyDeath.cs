@@ -26,36 +26,63 @@ public class EnemyDeath : MonoBehaviour
         }
 
         // Ensure the particle system is inactive at start
-        if (defeatParticles != null)
-        {
-            defeatParticles.Stop();
-        }
+        //if (defeatParticles != null)
+        //{
+        //    defeatParticles.Stop();
+        //}
 
         // Start the flicker coroutine
         //StartCoroutine(FlickerEffect());
     }
 
-    public IEnumerator FlickerEffect()
+    public void BeginFlicker()
     {
         while (elapsedTime < duration)
         {
+            Debug.Log("aaa");
             elapsedTime += Time.deltaTime;
 
+            float currentFrequency;
             // Calculate the current flicker frequency to decrease the wait time between flickers over time
-            float currentFrequency = Mathf.Lerp(initialFlickerFrequency, maxFlickerFrequency, elapsedTime / duration);
+            currentFrequency = Mathf.Lerp(initialFlickerFrequency, maxFlickerFrequency, elapsedTime / duration);
 
             // Toggle the sprite color between greyed-out and highlighted
             isHighlighted = !isHighlighted;
             spriteRenderer.color = isHighlighted ? highlightColor : greyedOutColor;
 
             // Wait for the current frequency duration
-            yield return new WaitForSeconds(currentFrequency);
         }
 
         // When the timer ends, activate the particle system
-        if (defeatParticles != null)
-        {
-            defeatParticles.Play();
-        }
+        //if (defeatParticles != null)
+        //{
+        //    defeatParticles.Play();
+        //}
     }
+
+    //public IEnumerator FlickerEffect()
+    //{
+        //while (elapsedTime < duration)
+        //{
+        //    Debug.Log("aaa");
+        //    elapsedTime += Time.deltaTime;
+
+        //    float currentFrequency;
+        //    // Calculate the current flicker frequency to decrease the wait time between flickers over time
+        //    currentFrequency = Mathf.Lerp(initialFlickerFrequency, maxFlickerFrequency, elapsedTime / duration);
+
+        //    // Toggle the sprite color between greyed-out and highlighted
+        //    isHighlighted = !isHighlighted;
+        //    spriteRenderer.color = isHighlighted ? highlightColor : greyedOutColor;
+
+        //    // Wait for the current frequency duration
+        //    yield return new WaitForSeconds(currentFrequency);
+        //}
+
+        //// When the timer ends, activate the particle system
+        //if (defeatParticles != null)
+        //{
+        //    defeatParticles.Play();
+        //}
+    //}
 }

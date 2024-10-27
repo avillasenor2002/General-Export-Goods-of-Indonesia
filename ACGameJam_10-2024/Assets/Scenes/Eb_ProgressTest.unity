@@ -10790,7 +10790,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 367706649}
-  - component: {fileID: 367706648}
+  - component: {fileID: 367706650}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -10798,31 +10798,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &367706648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367706647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9698b4cb61a5b6f478d4d206737ef786, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxInputs: 10
-  restartDelay: 2
-  inputText: {fileID: 1186027923}
-  fadeImage: {fileID: 865405268}
-  fadeDuration: 1.5
-  pauseMenuManager: {fileID: 1044760824}
-  progressSlider: {fileID: 621984383}
-  progressStar1: {fileID: 1030208088}
-  progressStar2: {fileID: 992654273}
-  progressStar3: {fileID: 199020022}
-  progressGoal1: 0.3
-  progressGoal2: 0.75
-  progressGoal3: 1
 --- !u!4 &367706649
 Transform:
   m_ObjectHideFlags: 0
@@ -10838,6 +10813,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &367706650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367706647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9698b4cb61a5b6f478d4d206737ef786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInputs: 5
+  restartDelay: 2
+  inputText: {fileID: 1186027923}
+  fadeImage: {fileID: 865405268}
+  fadeDuration: 1.5
+  pauseMenuManager: {fileID: 1044760824}
+  progressSlider: {fileID: 621984383}
+  progressStar1: {fileID: 1030208088}
+  progressStar2: {fileID: 992654273}
+  progressStar3: {fileID: 199020022}
+  progressGoal1: 0.5
+  progressGoal2: 0.75
+  progressGoal3: 1
 --- !u!1 &375187927
 GameObject:
   m_ObjectHideFlags: 0
@@ -60067,9 +60067,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd9ec6512f4a0548991b82ddc1486b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulseForce: 10
+  impulseForce: 3
   offsetMag: 0
   isMoving: 0
+  isMyTurn: 0
+  enemyTurn: 0
   clickedOn: 0
   playerRB: {fileID: 1638852901}
   mousePoint: {x: 0, y: 0}
@@ -60084,6 +60086,7 @@ MonoBehaviour:
   playerHealthUpdate: 0
   enemyHealthUpdate: 0
   playerHealthAdded: 0
+  turnEnd: 0
   playerSize: {x: 1, y: 1}
   playerGrowing: 0
   screenShake: {fileID: 1434874404}
@@ -60140,20 +60143,29 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.49367142
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -0.98575926
+        outSlope: -0.98575926
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.22471917
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0, g: 0, b: 0, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -60177,11 +60189,11 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 6
     alignment: 0
     textureMode: 0
     textureScale: {x: 1, y: 1}
@@ -86811,6 +86823,26 @@ PrefabInstance:
     - target: {fileID: 5034860520974401107, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
+      propertyPath: greyedOutColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
+      propertyPath: greyedOutColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
+      propertyPath: greyedOutColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
+      propertyPath: maxFlickerFrequency
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
+      propertyPath: initialFlickerFrequency
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

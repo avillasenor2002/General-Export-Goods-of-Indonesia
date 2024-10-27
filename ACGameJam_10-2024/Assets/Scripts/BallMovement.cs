@@ -40,7 +40,7 @@ public class BallMovement : MonoBehaviour
 
     public bool playerGrowing;
 
-    public AlexScreenShake screenShake;
+    public AlexScreenShake screenShake; 
 
     void Start()
     {

@@ -20,12 +20,14 @@ public class EnemyScript : MonoBehaviour
     public BallMovement Balls;
     public AlexScreenShake ScreenShake;
     public Rigidbody2D enemyRB;
+    public EnemyDeath enemyDeath;
     public bool isLaunched;
     public bool isDying;
     public bool isMyTurn;
     public GameObject player;
     public Color solidGhost;
     public Color transGhost;
+    public ParticleSystem defeatParticles;
 
     void Start()
     {
@@ -34,6 +36,7 @@ public class EnemyScript : MonoBehaviour
         isDying = false;
         enemyRB = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        enemyDeath = GetComponent<EnemyDeath>();
 
         // Load the initial form from the inspector setting
         if (enemyData != null && enemyData.forms.Count > 0)
@@ -95,7 +98,19 @@ public class EnemyScript : MonoBehaviour
                 if (isLaunched == true)
                 {
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
+                    //enemyDeath.BeginFlicker();
                     enScript.isLaunched = true;
+                }
+            }
+        }
+
+        if (Balls != null)
+        {
+            if (Balls.playerHealth <= currentHealth)
+            {
+                if (isLaunched == true)
+                {
+                    StartCoroutine(BelatedDeath(this.gameObject));
                 }
             }
         }
@@ -103,12 +118,14 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator BelatedDeath(GameObject enemy)
     {
+        //Instantiate(defeatParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
         if (ScreenShake != null)
         {
             ScreenShake.IsShaking();
         }
         Debug.Log("killing other enemy");
         yield return new WaitForSeconds(2);
+        Instantiate(defeatParticles, new Vector3 (enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
         Destroy(enemy);
     }
 
