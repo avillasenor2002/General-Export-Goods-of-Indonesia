@@ -22,6 +22,8 @@ public class EnemyScript : MonoBehaviour
     public bool isLaunched;
     public bool isDying;
 
+    public ParticleSystem defeatParticles;
+
     public EnemyDeath DeathPart;
     public int timeToDie;
 
@@ -76,6 +78,10 @@ public class EnemyScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyScript enScript = collision.gameObject.GetComponentInParent<EnemyScript>();
+        if (isLaunched == true)
+        {
+            StartCoroutine(Flash());
+        }
         if (enScript != null)
         {
             Debug.Log("is hit");
@@ -102,11 +108,25 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator BelatedDeath(GameObject enemy)
     {
-        DeathPart.duration = timeToDie;
-        DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
+        if (ScreenShake != null)
+        {
+            ScreenShake.IsShaking();
+        }
         Debug.Log("killing other enemy");
-        yield return new WaitForSeconds(timeToDie);
+        yield return new WaitForSeconds(2);
+        Instantiate(defeatParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
         Destroy(enemy);
+    }
+
+    IEnumerator Flash()
+    {
+        while (true)
+        {
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.color = Color.gray;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void ChangeForm()
@@ -117,6 +137,6 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        // Placeholder for movement logic or other updates
+
     }
 }

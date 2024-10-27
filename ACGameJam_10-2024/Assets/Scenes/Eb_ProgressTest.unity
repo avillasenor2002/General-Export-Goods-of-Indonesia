@@ -33023,6 +33023,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932533861}
   m_CullTransparentMesh: 1
+--- !u!1001 &937047996
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1638852903}
+    m_Modifications:
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101151570649055650, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+      propertyPath: m_Name
+      value: Particle System (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+--- !u!4 &937047997 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1096208614573633811, guid: fabeb9b516b2972499321f43ecdd0ec4, type: 3}
+  m_PrefabInstance: {fileID: 937047996}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &992654273
 GameObject:
   m_ObjectHideFlags: 0
@@ -59877,6 +59939,7 @@ Transform:
   - {fileID: 1709672373}
   - {fileID: 1267991014}
   - {fileID: 1772500003}
+  - {fileID: 937047997}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -0.42, z: 0}
 --- !u!58 &1638852904
@@ -59940,6 +60003,7 @@ MonoBehaviour:
   targetPoint: {x: 0, y: 0, z: 0}
   offsetAmount: {x: 0, y: 0, z: 0}
   targetLine: {fileID: 1638852906}
+  deathParticles: {fileID: 8134874074148620406, guid: 3ce392e6c5bf7ce45a8e29348a8267c3, type: 3}
   tracker: {fileID: 1841100735}
   playerHealth: 1
   playerHealthUpdate: 0
@@ -59949,8 +60013,6 @@ MonoBehaviour:
   playerSize: {x: 1, y: 1}
   playerGrowing: 0
   screenShake: {fileID: 1434874404}
-  turnManager: {fileID: 367706648}
-  playerLevelLabel: {fileID: 805096392}
 --- !u!120 &1638852906
 LineRenderer:
   serializedVersion: 2
@@ -86687,11 +86749,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: greyedOutColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: greyedOutColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5391343000470903589, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: greyedOutColor.r

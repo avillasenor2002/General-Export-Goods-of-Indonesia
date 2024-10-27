@@ -27,6 +27,8 @@ public class BallMovement : MonoBehaviour
 
     public LineRenderer targetLine;
 
+    public ParticleSystem deathParticles;
+
     public GameObject tracker;
 
     //player stats variables
@@ -169,6 +171,7 @@ public class BallMovement : MonoBehaviour
                     playerGrowing = true;
                     enScript.isLaunched = true;
                     StartCoroutine(BelatedDeath(col.gameObject));
+                    StartCoroutine(Flash(col.gameObject));
                 }
             }
             //script for if an enemy outweighs the player
@@ -188,8 +191,27 @@ public class BallMovement : MonoBehaviour
     //kills the collided equal enemy after 2 seconds
     IEnumerator BelatedDeath(GameObject enemy)
     {
+        if (screenShake != null)
+        {
+            screenShake.IsShaking();
+        }
+        Debug.Log("killing this enemy");
         yield return new WaitForSeconds(2);
+        Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
         Destroy(enemy);
+    }
+
+    IEnumerator Flash(GameObject enemy)
+    {
+        SpriteRenderer spriteRenderer;
+        spriteRenderer = enemy.GetComponent<SpriteRenderer>();
+        while (true)
+        {
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.color = Color.gray;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     //grows the player larger depending on enemy
