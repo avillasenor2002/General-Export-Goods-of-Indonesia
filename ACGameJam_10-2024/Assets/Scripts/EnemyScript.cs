@@ -19,24 +19,16 @@ public class EnemyScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public BallMovement Balls;
     public AlexScreenShake ScreenShake;
-    public Rigidbody2D enemyRB;
-    public EnemyDeath enemyDeath;
     public bool isLaunched;
     public bool isDying;
-    public bool isMyTurn;
-    public GameObject player;
-    public Color solidGhost;
-    public Color transGhost;
-    public ParticleSystem defeatParticles;
+
+    public EnemyDeath DeathPart;
+    public int timeToDie;
 
     void Start()
     {
-        solidGhost = new Color(1, 1, 1, 1);
-        transGhost = new Color(1, 1, 1, 0.5f);
         isDying = false;
-        enemyRB = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        enemyDeath = GetComponent<EnemyDeath>();
 
         // Load the initial form from the inspector setting
         if (enemyData != null && enemyData.forms.Count > 0)
@@ -49,12 +41,8 @@ public class EnemyScript : MonoBehaviour
             Debug.LogError("No forms found in enemy data!");
         }
 
-        player = GameObject.Find("PlayerSlime");
-        if (player != null)
-        {
-            Balls = player.GetComponent<BallMovement>();
-        }
 
+        BallMovement Balls = FindObjectOfType<BallMovement>();
         AlexScreenShake ScreenShake = Camera.main.GetComponent<AlexScreenShake>();
 
         if (Balls != null)
@@ -94,38 +82,30 @@ public class EnemyScript : MonoBehaviour
             if (enScript.currentHealth <= currentHealth)
             {
                 Debug.Log("my health is greater");
-
+                if (ScreenShake != null)
+                {
+                    ScreenShake.IsShaking();
+                    DeathPart.duration = timeToDie;
+                    DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
+                }
                 if (isLaunched == true)
                 {
+
+                    StartCoroutine(BelatedDeath(collision.gameObject));
                     enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
-                    //enemyDeath.BeginFlicker();
                     enScript.isLaunched = true;
                 }
-            }
-        }
-
-        if (Balls != null)
-        {
-            if (Balls.playerHealth <= currentHealth)
-            {
-                if (isLaunched == true)
-                {
-                    StartCoroutine(BelatedDeath(this.gameObject));
-                }
+                //GrowPlayer(enScript.currentHealth);
             }
         }
     }
 
     IEnumerator BelatedDeath(GameObject enemy)
     {
-        //Instantiate(defeatParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
-        if (ScreenShake != null)
-        {
-            ScreenShake.IsShaking();
-        }
+        DeathPart.duration = timeToDie;
+        DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
         Debug.Log("killing other enemy");
-        yield return new WaitForSeconds(2);
-        Instantiate(defeatParticles, new Vector3 (enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
+        yield return new WaitForSeconds(timeToDie);
         Destroy(enemy);
     }
 
@@ -137,21 +117,6 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if (Balls.isMyTurn == false)
-        {
-            if (Balls.isMoving == false)
-            {
-                if (enemyRB.simulated == true)
-                {
-                    enemyRB.simulated = false;
-                    spriteRenderer.color = Color.gray;
-                }
-                else
-                {
-                    enemyRB.simulated = true;
-                    spriteRenderer.color = Color.white;
-                }
-            }
-        }
+        // Placeholder for movement logic or other updates
     }
 }
