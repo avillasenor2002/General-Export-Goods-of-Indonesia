@@ -36,6 +36,13 @@ public class EnemyScript : MonoBehaviour
     public GameObject skeletonBonePile;
     public Animator myAnimator;
 
+    private SFXPlayer sfxPlayer;
+
+    void Awake()
+    {
+        sfxPlayer = GameObject.Find("GameManager").GetComponent<SFXPlayer>();
+    }
+
     void Start()
     {
         isDying = false;
@@ -110,6 +117,7 @@ public class EnemyScript : MonoBehaviour
         if (enScript != null)
         {
             Debug.Log("is hit");
+            sfxPlayer.PlayAndIncrementBallClack();
             if (enScript.currentHealth <= currentHealth)
             {
                 Debug.Log("my health is greater");

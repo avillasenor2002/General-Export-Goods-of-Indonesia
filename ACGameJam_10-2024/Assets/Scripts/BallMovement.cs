@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -12,7 +13,7 @@ public class BallMovement : MonoBehaviour
 
     public bool isMoving;
     public bool isMyTurn;
-    public bool enemyTurn = false;
+    public bool enemyTurn= false;
     public bool clickedOn;
 
     public Rigidbody2D playerRB;
@@ -46,6 +47,14 @@ public class BallMovement : MonoBehaviour
 
     public AlexScreenShake screenShake;
 
+    private SFXPlayer sfxPlayer;
+    private bool[] soundCharges = {false,false,false,false,false,false};
+
+    void Awake()
+    {
+        sfxPlayer = GameObject.Find("GameManager").GetComponent<SFXPlayer>();
+    }
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
@@ -74,6 +83,8 @@ public class BallMovement : MonoBehaviour
             //if the player was clicked on, executes code; otherwise it does nothing
             if (clickedOn == true)
             {
+                sfxPlayer.ResetClackCombo();
+
                 //shows the line between mouse cursor and player
                 targetLine.enabled = true;
 
@@ -99,7 +110,7 @@ public class BallMovement : MonoBehaviour
                 if (offsetMag > 5)
                 {
                     offsetMag = 5;
-                    Vector2 newPos = (transform.position - tracker.transform.position) * -1;
+                    Vector2 newPos = (transform.position - tracker.transform.position)*-1;
                     targetLine.SetPosition(0, transform.position);
                     targetLine.SetPosition(1, transform.position + Vector3.ClampMagnitude(newPos, offsetMag));
                 }
@@ -114,6 +125,8 @@ public class BallMovement : MonoBehaviour
                     targetLine.SetPosition(0, transform.position);
                     targetLine.SetPosition(1, tracker.transform.position);
                 }
+
+                PlaySFXChargeSound();
             }
         }
         //adds force onto player in the opposite direction it's looking
@@ -125,9 +138,17 @@ public class BallMovement : MonoBehaviour
                 clickedOn = false;
                 isMoving = true;
                 targetLine.enabled = false;
-                playerRB.AddForce(transform.up * (offsetMag * -impulseForce), ForceMode2D.Impulse);
+                playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
                 turnEnd = 0;
                 isMyTurn = false;
+
+                sfxPlayer.PlaySoundName("swoosh");
+                soundCharges[0] = false;
+                soundCharges[1] = false;
+                soundCharges[2] = false;
+                soundCharges[3] = false;
+                soundCharges[4] = false;
+                soundCharges[5] = false;
             }
         }
 
@@ -147,10 +168,10 @@ public class BallMovement : MonoBehaviour
         {
             if (playerRB.velocity.magnitude >= 0)
             {
-                playerRB.velocity = new Vector2(Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
+                playerRB.velocity = new Vector2 (Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
             }
         }
-        if ((playerRB.velocity.magnitude == 0) && isMyTurn == false)
+        if ((playerRB.velocity.magnitude == 0)&& isMyTurn==false)
         {
             isMoving = false;
             isMyTurn = true;
@@ -163,18 +184,89 @@ public class BallMovement : MonoBehaviour
         }
     }
 
+    private void PlaySFXChargeSound()
+    {
+        // going up
+        if (offsetMag > 0 && !soundCharges[0])
+        {
+            sfxPlayer.PlaySoundName("impulse");
+            soundCharges[0] = true;
+        }
+
+        if (offsetMag >= 1 && !soundCharges[1])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.1f);
+            soundCharges[1] = true;
+        }
+
+        if (offsetMag >= 2 && !soundCharges[2])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.2f);
+            soundCharges[2] = true;
+        }
+
+        if (offsetMag >= 3 && !soundCharges[3])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.3f);
+            soundCharges[3] = true;
+        }
+
+        if (offsetMag >= 4 && !soundCharges[4])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.4f);
+            soundCharges[4] = true;
+        }
+
+        if (offsetMag >= 5 && !soundCharges[5])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.5f);
+            soundCharges[5] = true;
+        }
+
+        // going down
+        if (offsetMag <= 0 && soundCharges[0])
+        {
+            sfxPlayer.PlaySoundName("impulse");
+            soundCharges[0] = false;
+        }
+
+        if (offsetMag <= 1 && soundCharges[1])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.1f);
+            soundCharges[1] = false;
+        }
+
+        if (offsetMag <= 2 && soundCharges[2])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.2f);
+            soundCharges[2] = false;
+        }
+
+        if (offsetMag <= 3 && soundCharges[3])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.3f);
+            soundCharges[3] = false;
+        }
+
+        if (offsetMag <= 4 && soundCharges[4])
+        {
+            sfxPlayer.PlaySoundName("impulse", 1.4f);
+            soundCharges[4] = false;
+        }
+    }
 
     public void OnCollisionEnter2D(Collision2D col)
     {
         EnemyScript enScript = col.gameObject.GetComponent<EnemyScript>();
         if (enScript != null)
         {
+            sfxPlayer.PlayAndIncrementBallClack();
             //script for if an enemy is equal to the player
             if (enScript.currentHealth <= playerHealth)
             {
                 if (enScript.isDying == false)
                 {
-                    enScript.isDying = true;
+                    enScript.isDying= true;
                     if (screenShake != null)
                     {
                         screenShake.IsShaking();
@@ -183,7 +275,7 @@ public class BallMovement : MonoBehaviour
                     if (enScript.currentHealth == playerHealth)
                     {
                         Debug.Log("Adding health");
-                        playerHealthUpdate = playerHealthAdded + playerHealth + 2;
+                        playerHealthUpdate = playerHealthAdded + playerHealth+2;
                         playerHealth = playerHealth + 1;
                     }
                     else
@@ -247,13 +339,13 @@ public class BallMovement : MonoBehaviour
     //grows the player larger depending on enemy
     public void GrowPlayer(int playerHealthUpdate)
     {
-        if ((Mathf.Round(playerHealthUpdate * 100)) / 100 < playerHealthUpdate)
+        if ((Mathf.Round(playerHealthUpdate * 100))/100 <  playerHealthUpdate)
         {
             transform.localScale = new Vector2(Mathf.Lerp(transform.localScale.x, playerHealthUpdate, 0.1f), Mathf.Lerp(transform.localScale.y, playerHealthUpdate, 0.1f));
         }
         else
         {
-            transform.localScale = new Vector2(playerHealthUpdate, playerHealthUpdate);
+            transform.localScale = new Vector2(playerHealthUpdate,playerHealthUpdate);
             playerGrowing = false;
         }
     }
