@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AlexSaveSound : MonoBehaviour
 {
-    public static AlexMusicManager instance;
+    public static AlexSaveSound instance;
     void Awake() 
     {
         if(instance == null)
