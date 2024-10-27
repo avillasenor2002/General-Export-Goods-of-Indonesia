@@ -167,9 +167,11 @@ public class BallMovement : MonoBehaviour
                         screenShake.IsShaking();
                     }
                     playerHealthAdded = playerHealth + 5;
-                    playerHealthUpdate = playerHealthAdded + enScript.currentHealth;
-                    playerHealth = playerHealth +enScript.currentHealth;
-                    //GrowPlayer(enScript.currentHealth);
+                    if (enScript.currentHealth == playerHealth)
+                    {
+                        playerHealthUpdate = playerHealthAdded + 1;
+                        playerHealth = playerHealth + 1;
+                    }
                     playerGrowing = true;
                     enScript.isLaunched = true;
                     StartCoroutine(BelatedDeath(col.gameObject));
@@ -187,14 +189,6 @@ public class BallMovement : MonoBehaviour
                 col.rigidbody.drag = 1000;
                 col.rigidbody.angularDrag = 1000;
             }
-        }
-    }
-
-    public void OnTriggerStay2D(Collider2D col)
-    {
-        if ((col.gameObject.tag == "Pit") && (col.gameObject.tag != "Floor"))
-        {
-            Destroy(this.gameObject);
         }
     }
 

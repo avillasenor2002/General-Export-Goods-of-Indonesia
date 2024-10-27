@@ -10994,7 +10994,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d7681b67ee35f41b0a1582af667b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ball: {fileID: 0}
 --- !u!1 &314433594
 GameObject:
   m_ObjectHideFlags: 0
@@ -78147,7 +78146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 0}
-  pitDamage: 5
+  pitDamage: 3
 --- !u!1 &2025633818
 GameObject:
   m_ObjectHideFlags: 0
