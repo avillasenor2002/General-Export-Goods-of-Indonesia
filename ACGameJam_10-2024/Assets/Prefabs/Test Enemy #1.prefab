@@ -206,15 +206,11 @@ MonoBehaviour:
   currentHealth: 0
   Balls: {fileID: 0}
   ScreenShake: {fileID: 0}
-  enemyRB: {fileID: 0}
-  enemyDeath: {fileID: 0}
   isLaunched: 0
   isDying: 0
-  isMyTurn: 0
-  player: {fileID: 0}
-  solidGhost: {r: 0, g: 0, b: 0, a: 0}
-  transGhost: {r: 0, g: 0, b: 0, a: 0}
   defeatParticles: {fileID: 8134874074148620406, guid: 3ce392e6c5bf7ce45a8e29348a8267c3, type: 3}
+  DeathPart: {fileID: 0}
+  timeToDie: 0
 --- !u!96 &3329038839143704625
 TrailRenderer:
   serializedVersion: 3
@@ -341,10 +337,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 3
-  initialFlickerFrequency: 1
-  maxFlickerFrequency: 0.1
-  greyedOutColor: {r: 1, g: 0, b: 0, a: 1}
-  highlightColor: {r: 1, g: 1, b: 1, a: 1}
+  initialFlipFrequency: 0.5
+  maxFlipFrequency: 0.05
+  greyedOutColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   defeatParticles: {fileID: 8134874074148620406, guid: 3ce392e6c5bf7ce45a8e29348a8267c3, type: 3}
 --- !u!1 &8737888371275075392
 GameObject:
