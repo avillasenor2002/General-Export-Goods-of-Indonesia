@@ -20,12 +20,13 @@ public class EnemyScript : MonoBehaviour
     public int initialFormIndex = 0;      // Set the initial form in the Inspector
     public int currentFormIndex;
     public int currentHealth;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     public BallMovement Balls;
     public AlexScreenShake ScreenShake;
     public bool isLaunched;
     public bool isDying;
     public float enemySize;
+    public string spriteName;
 
     public ParticleSystem defeatParticles;
 
@@ -73,10 +74,15 @@ public class EnemyScript : MonoBehaviour
         currentFormIndex = formIndex;
         EnemyForm form = enemyData.forms[formIndex];
         enemySize = 1 + (form.size / 3);
+        spriteName = form.formName;
+
+
         if (enemySize < 1)
         {
             enemySize = 1;
         }
+
+
         transform.localScale = new Vector2(enemySize, enemySize);
         currentHealth = form.health;
 
