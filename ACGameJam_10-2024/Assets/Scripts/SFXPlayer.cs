@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class SFXPlayer : MonoBehaviour
 {
-    [System.Serializable]
-    public class SoundEffect
-    {
-        public string name;         // Name identifier for the sound
-        public AudioClip clip;      // AudioClip for the sound
-    }
-
-    public List<SoundEffect> soundEffects = new List<SoundEffect>(); // List of sound effects
+    public SoundEffectsDatabase soundEffectsDatabase; // Reference to the SoundEffectsDatabase
     public AudioSource audioSource;   // Reference to the AudioSource component
 
     private void Awake()
@@ -20,32 +13,41 @@ public class SFXPlayer : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        if (soundEffectsDatabase == null)
+        {
+            Debug.LogWarning("SoundEffectsDatabase is not assigned to SFXPlayer.");
+        }
     }
 
     // Play sound by name
     public void PlaySoundName(string name)
     {
-        SoundEffect sfx = soundEffects.Find(s => s.name == name);
+        if (soundEffectsDatabase == null) return;
+
+        SoundEffect sfx = soundEffectsDatabase.soundEffects.Find(s => s.name == name);
         if (sfx != null && sfx.clip != null)
         {
             audioSource.PlayOneShot(sfx.clip);
         }
         else
         {
-            Debug.LogWarning($"Sound with name '{name}' not found or clip is missing.");
+            Debug.LogWarning($"Sound with name '{name}' not found in database or clip is missing.");
         }
     }
 
     // Play sound by index
     public void PlaySoundIndex(int index)
     {
-        if (index >= 0 && index < soundEffects.Count && soundEffects[index].clip != null)
+        if (soundEffectsDatabase == null) return;
+
+        if (index >= 0 && index < soundEffectsDatabase.soundEffects.Count && soundEffectsDatabase.soundEffects[index].clip != null)
         {
-            audioSource.PlayOneShot(soundEffects[index].clip);
+            audioSource.PlayOneShot(soundEffectsDatabase.soundEffects[index].clip);
         }
         else
         {
-            Debug.LogWarning($"Sound at index '{index}' is out of range or clip is missing.");
+            Debug.LogWarning($"Sound at index '{index}' is out of range in database or clip is missing.");
         }
     }
 }
