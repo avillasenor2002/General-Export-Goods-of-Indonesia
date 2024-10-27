@@ -16,40 +16,40 @@ MonoBehaviour:
   - formName: Rat
     health: 1
     size: 1
-    formSprite: {fileID: 21300000, guid: fc5364877a7ace749ba2a23d405d992c, type: 3}
+    formSprite: {fileID: 21300000, guid: 6131f3cfae30cc3439ed54a7f68c4c34, type: 3}
   - formName: Imp
     health: 2
     size: 2
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: b0005dab4849a0a46b4266aeec53449e, type: 3}
   - formName: Chicken
     health: 3
     size: 3
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: e97e799dc4f03b24290b9ba69b8a34b2, type: 3}
   - formName: Doctor
     health: 4
     size: 4
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 87862c86ae510054a89f0782c39f64e3, type: 3}
   - formName: Goblin
     health: 5
     size: 5
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 9b9ead3d8b9ceed4dbac0bc82e5abb4b, type: 3}
   - formName: Dragon
     health: 6
     size: 6
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 56aef493a6d081741916874ba135b726, type: 3}
   - formName: Slime
     health: 1
     size: 1
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 8c94a5b906f239b4d930fd2301a87798, type: 3}
   - formName: Ghost
     health: 1
     size: 2
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 87862c86ae510054a89f0782c39f64e3, type: 3}
   - formName: Skeleton
     health: 1
     size: 2
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 810d48c2e23747d4d8e40dbebe1041ca, type: 3}
   - formName: Rat King
     health: 6
     size: 0
-    formSprite: {fileID: 0}
+    formSprite: {fileID: 21300000, guid: 6131f3cfae30cc3439ed54a7f68c4c34, type: 3}
