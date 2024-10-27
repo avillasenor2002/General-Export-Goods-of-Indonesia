@@ -86,7 +86,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     ScreenShake.IsShaking();
                     DeathPart.duration = timeToDie;
-                    DeathPart.StartCoroutine(DeathPart.FlickerEffect());
+                    DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
                 }
                 if (isLaunched == true)
                 {
@@ -103,7 +103,7 @@ public class EnemyScript : MonoBehaviour
     IEnumerator BelatedDeath(GameObject enemy)
     {
         DeathPart.duration = timeToDie;
-        DeathPart.StartCoroutine(DeathPart.FlickerEffect());
+        DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
         Debug.Log("killing other enemy");
         yield return new WaitForSeconds(timeToDie);
         Destroy(enemy);
