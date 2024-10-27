@@ -9,7 +9,7 @@ public class SFXPlayer : MonoBehaviour
 
     private float clackCombo = 0f;
 
-    private void Start()
+    private void Awake()
     {
         if (audioSource == null)
         {
@@ -19,7 +19,6 @@ public class SFXPlayer : MonoBehaviour
         if (soundEffectsDatabase == null)
         {
             Debug.LogWarning("SoundEffectsDatabase is not assigned to SFXPlayer.");
-            LoadScriptableObject();
         }
     }
 
@@ -64,22 +63,5 @@ public class SFXPlayer : MonoBehaviour
     public void ResetClackCombo()
     {
         clackCombo = 0f;
-    }
-
-    private void LoadScriptableObject()
-    {
-        // Load the ScriptableObject from the Resources folder
-        soundEffectsDatabase = Resources.Load<SoundEffectsDatabase>("SoundEffectsDatabase");
-
-        if (soundEffectsDatabase != null)
-        {
-            //Debug.Log("Successfully loaded ScriptableObject: " + soundEffectsDatabase.dataName);
-            // Use exampleData as needed
-            
-        }
-        else
-        {
-            Debug.LogError("ScriptableObject not found in Resources folder.");
-        }
     }
 }
