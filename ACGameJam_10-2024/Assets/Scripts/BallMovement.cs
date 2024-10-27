@@ -29,7 +29,9 @@ public class BallMovement : MonoBehaviour
 
     //player stats variables
     public int playerHealth;
+    public int playerHealthUpdate;
     public int enemyHealthUpdate;
+    public int playerHealthAdded;
 
     public Vector2 playerSize;
 
@@ -47,7 +49,10 @@ public class BallMovement : MonoBehaviour
     //the player must be clicked on to activate the movement script
     public void OnMouseDown()
     {
-        clickedOn = true;
+        if (isMoving == false)
+        {
+            clickedOn = true;
+        }
     }
 
     // Update is called once per frame
@@ -85,8 +90,9 @@ public class BallMovement : MonoBehaviour
                 if (offsetMag > 5)
                 {
                     offsetMag = 5;
+                    Vector2 newPos = (transform.position - tracker.transform.position)*-1;
                     targetLine.SetPosition(0, transform.position);
-                    targetLine.SetPosition(1, tracker.transform.position);
+                    targetLine.SetPosition(1, transform.position + Vector3.ClampMagnitude(newPos, offsetMag));
                 }
                 else if (offsetMag < 0.1f)
                 {
@@ -108,54 +114,56 @@ public class BallMovement : MonoBehaviour
             {
                 //resets everything to normal, and adds a force dependent on magnitude of distance between the player and cursor
                 clickedOn = false;
+                isMoving = true;
                 targetLine.enabled = false;
                 playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
             }
         }
 
+        if (playerRB.velocity.magnitude <= 0.8f)
+        {
+            if (playerRB.velocity.magnitude >= 0)
+            {
+                playerRB.velocity = new Vector2 (Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
+            }
+        }
+        if (playerRB.velocity.magnitude == 0)
+        {
+            isMoving = false;
+        }
+
         if (playerGrowing == true)
         {
-            GrowPlayer(enemyHealthUpdate);
+            GrowPlayer(playerHealthUpdate);
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D trig)
-    {
-        EnemyScript enScript = trig.gameObject.GetComponentInParent< EnemyScript>();
-        if (enScript != null)
-        {
-            if (enScript.currentHealth < playerHealth)
-            {
-                if (screenShake != null)
-                {
-                    screenShake.IsShaking();
-                }
-                Destroy(enScript.gameObject);
-                //GrowPlayer(enScript.currentHealth);
-                playerGrowing = true;
-                enemyHealthUpdate = enScript.currentHealth;
-            }
-        }
-    }
 
     public void OnCollisionEnter2D(Collision2D col)
     {
         EnemyScript enScript = col.gameObject.GetComponent<EnemyScript>();
         if (enScript != null)
         {
-            if (enScript.currentHealth == playerHealth)
+            //script for if an enemy is equal to the player
+            if (enScript.currentHealth <= playerHealth)
             {
-                if (screenShake != null)
+                if (enScript.isDying == false)
                 {
-                    screenShake.IsShaking();
+                    enScript.isDying= true;
+                    if (screenShake != null)
+                    {
+                        screenShake.IsShaking();
+                    }
+                    playerHealthAdded = playerHealth + 5;
+                    playerHealthUpdate = playerHealthAdded + enScript.currentHealth;
+                    playerHealth = playerHealth +enScript.currentHealth;
+                    //GrowPlayer(enScript.currentHealth);
+                    playerGrowing = true;
+                    enScript.isLaunched = true;
+                    StartCoroutine(BelatedDeath(col.gameObject));
                 }
-                playerHealth = playerHealth + enScript.currentHealth;
-                enemyHealthUpdate = enScript.currentHealth;
-                //GrowPlayer(enScript.currentHealth);
-                playerGrowing = true;
-                enScript.isLaunched = true;
-                StartCoroutine(BelatedDeath(col.gameObject));
             }
+            //script for if an enemy outweighs the player
             else if (enScript.currentHealth > playerHealth)
             {
                 if (screenShake != null)
@@ -169,21 +177,23 @@ public class BallMovement : MonoBehaviour
         }
     }
 
+    //kills the collided equal enemy after 2 seconds
     IEnumerator BelatedDeath(GameObject enemy)
     {
         yield return new WaitForSeconds(2);
         Destroy(enemy);
     }
 
-    public void GrowPlayer(int enemyHealth)
+    //grows the player larger depending on enemy
+    public void GrowPlayer(int playerHealthUpdate)
     {
-        if ((Mathf.Round(playerHealth * 100))/100 <  enemyHealth*4)
+        if ((Mathf.Round(playerHealthUpdate * 100))/100 <  playerHealthUpdate)
         {
-            transform.localScale = new Vector2(Mathf.Lerp(transform.localScale.x, enemyHealth * 4, 0.1f), Mathf.Lerp(transform.localScale.y, enemyHealth * 4, 0.1f));
+            transform.localScale = new Vector2(Mathf.Lerp(transform.localScale.x, playerHealthUpdate, 0.1f), Mathf.Lerp(transform.localScale.y, playerHealthUpdate, 0.1f));
         }
         else
         {
-            transform.localScale = new Vector2(enemyHealth*4,enemyHealth*4);
+            transform.localScale = new Vector2(playerHealthUpdate,playerHealthUpdate);
             playerGrowing = false;
         }
     }

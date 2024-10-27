@@ -18,10 +18,16 @@ public class EnemyScript : MonoBehaviour
     public int currentHealth;
     private SpriteRenderer spriteRenderer;
     public BallMovement Balls;
+    public AlexScreenShake ScreenShake;
     public bool isLaunched;
+    public bool isDying;
+
+    public EnemyDeath DeathPart;
+    public int timeToDie;
 
     void Start()
     {
+        isDying = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Load the initial form from the inspector setting
@@ -35,10 +41,13 @@ public class EnemyScript : MonoBehaviour
             Debug.LogError("No forms found in enemy data!");
         }
 
+
         BallMovement Balls = FindObjectOfType<BallMovement>();
+        AlexScreenShake ScreenShake = Camera.main.GetComponent<AlexScreenShake>();
 
         if (Balls != null)
         {
+            Balls = Balls.GetComponent<BallMovement>();
             Debug.Log("Found object with TargetScript: " + Balls.gameObject.name);
             // You can now access targetObject's properties and methods
         }
@@ -66,29 +75,38 @@ public class EnemyScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        EnemyScript enScript = collision.gameObject.GetComponent<EnemyScript>();
+        EnemyScript enScript = collision.gameObject.GetComponentInParent<EnemyScript>();
         if (enScript != null)
         {
+            Debug.Log("is hit");
             if (enScript.currentHealth <= currentHealth)
             {
-                if (Balls.screenShake != null)
+                Debug.Log("my health is greater");
+                if (ScreenShake != null)
                 {
-                    Balls.screenShake.IsShaking();
+                    ScreenShake.IsShaking();
+                    DeathPart.duration = timeToDie;
+                    DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
                 }
                 if (isLaunched == true)
                 {
-                    enScript.StartCoroutine(BelatedDeath(collision.gameObject));
-                    Destroy(gameObject);
+
+                    StartCoroutine(BelatedDeath(collision.gameObject));
+                    enScript.StartCoroutine(BelatedDeath(enScript.gameObject));
+                    enScript.isLaunched = true;
                 }
                 //GrowPlayer(enScript.currentHealth);
             }
         }
     }
 
-    IEnumerator BelatedDeath(GameObject gameObject)
+    IEnumerator BelatedDeath(GameObject enemy)
     {
-        yield return new WaitForSeconds(2);
-        Destroy(this.gameObject);
+        DeathPart.duration = timeToDie;
+        DeathPart.StartCoroutine(DeathPart.ColorFlipEffect());
+        Debug.Log("killing other enemy");
+        yield return new WaitForSeconds(timeToDie);
+        Destroy(enemy);
     }
 
     public void ChangeForm()
