@@ -11,6 +11,8 @@ public class BallMovement : MonoBehaviour
     public float offsetMag;
 
     public bool isMoving;
+    public bool isMyTurn;
+    public bool enemyTurn= false;
     public bool clickedOn;
 
     public Rigidbody2D playerRB;
@@ -25,6 +27,8 @@ public class BallMovement : MonoBehaviour
 
     public LineRenderer targetLine;
 
+    public ParticleSystem deathParticles;
+
     public GameObject tracker;
 
     //player stats variables
@@ -32,18 +36,21 @@ public class BallMovement : MonoBehaviour
     public int playerHealthUpdate;
     public int enemyHealthUpdate;
     public int playerHealthAdded;
+    public int turnEnd;
 
     public Vector2 playerSize;
 
     public bool playerGrowing;
 
-    public AlexScreenShake screenShake;
+    public AlexScreenShake screenShake; 
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
         targetLine = GetComponent<LineRenderer>();
         targetLine.enabled = false;
+        turnEnd = 0;
+        isMyTurn = true;
     }
 
     //the player must be clicked on to activate the movement script
@@ -117,6 +124,8 @@ public class BallMovement : MonoBehaviour
                 isMoving = true;
                 targetLine.enabled = false;
                 playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
+                turnEnd = 0;
+                isMyTurn = false;
             }
         }
 
@@ -127,9 +136,10 @@ public class BallMovement : MonoBehaviour
                 playerRB.velocity = new Vector2 (Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
             }
         }
-        if (playerRB.velocity.magnitude == 0)
+        if ((playerRB.velocity.magnitude == 0)&& isMyTurn==false)
         {
             isMoving = false;
+            isMyTurn = true;
         }
 
         if (playerGrowing == true)
@@ -161,6 +171,7 @@ public class BallMovement : MonoBehaviour
                     playerGrowing = true;
                     enScript.isLaunched = true;
                     StartCoroutine(BelatedDeath(col.gameObject));
+                    StartCoroutine(Flash(col.gameObject));
                 }
             }
             //script for if an enemy outweighs the player
@@ -180,8 +191,27 @@ public class BallMovement : MonoBehaviour
     //kills the collided equal enemy after 2 seconds
     IEnumerator BelatedDeath(GameObject enemy)
     {
+        if (screenShake != null)
+        {
+            screenShake.IsShaking();
+        }
+        Debug.Log("killing this enemy");
         yield return new WaitForSeconds(2);
+        Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
         Destroy(enemy);
+    }
+
+    IEnumerator Flash(GameObject enemy)
+    {
+        SpriteRenderer spriteRenderer;
+        spriteRenderer = enemy.GetComponent<SpriteRenderer>();
+        while (true)
+        {
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.color = Color.gray;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     //grows the player larger depending on enemy
