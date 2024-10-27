@@ -27,6 +27,8 @@ public class TurnManager : MonoBehaviour
     public GameObject progressStar1, progressStar2, progressStar3;
     private float progressStarY = -2.5f;
 
+    public BallMovement Balls;
+
     [Header("Goals for Each Star Achievement in Percent of Progress\n(IN ORDER SMALLEST TO BIGGEST)")]
 
     [Range(0, 1)]
@@ -40,6 +42,7 @@ public class TurnManager : MonoBehaviour
     {
         inputCount = 0;
         PositionProgressStars();
+        Balls = FindObjectOfType<BallMovement>();
 
         UpdateInputText();
         SetFadeAlpha(0);  // Ensure fadeImage starts transparent
@@ -72,7 +75,7 @@ public class TurnManager : MonoBehaviour
     public void CountInput()
     {
         Debug.Log("Counting Input");
-        inputCount++;
+        inputCount = Balls.turnAmount;
         UpdateInputText();
         OnInputCountChanged?.Invoke(inputCount);
 
