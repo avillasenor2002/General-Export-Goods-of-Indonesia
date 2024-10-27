@@ -12,7 +12,7 @@ public class BallMovement : MonoBehaviour
 
     public bool isMoving;
     public bool isMyTurn;
-    public bool enemyTurn= false;
+    public bool enemyTurn = false;
     public bool clickedOn;
 
     public Rigidbody2D playerRB;
@@ -44,7 +44,7 @@ public class BallMovement : MonoBehaviour
 
     public bool playerGrowing;
 
-    public AlexScreenShake screenShake; 
+    public AlexScreenShake screenShake;
 
     void Start()
     {
@@ -99,7 +99,7 @@ public class BallMovement : MonoBehaviour
                 if (offsetMag > 5)
                 {
                     offsetMag = 5;
-                    Vector2 newPos = (transform.position - tracker.transform.position)*-1;
+                    Vector2 newPos = (transform.position - tracker.transform.position) * -1;
                     targetLine.SetPosition(0, transform.position);
                     targetLine.SetPosition(1, transform.position + Vector3.ClampMagnitude(newPos, offsetMag));
                 }
@@ -125,7 +125,7 @@ public class BallMovement : MonoBehaviour
                 clickedOn = false;
                 isMoving = true;
                 targetLine.enabled = false;
-                playerRB.AddForce(transform.up*(offsetMag*-impulseForce), ForceMode2D.Impulse);
+                playerRB.AddForce(transform.up * (offsetMag * -impulseForce), ForceMode2D.Impulse);
                 turnEnd = 0;
                 isMyTurn = false;
             }
@@ -147,10 +147,10 @@ public class BallMovement : MonoBehaviour
         {
             if (playerRB.velocity.magnitude >= 0)
             {
-                playerRB.velocity = new Vector2 (Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
+                playerRB.velocity = new Vector2(Mathf.Lerp(playerRB.velocity.x, 0, 1f), Mathf.Lerp(playerRB.velocity.y, 0, 1f));
             }
         }
-        if ((playerRB.velocity.magnitude == 0)&& isMyTurn==false)
+        if ((playerRB.velocity.magnitude == 0) && isMyTurn == false)
         {
             isMoving = false;
             isMyTurn = true;
@@ -174,8 +174,7 @@ public class BallMovement : MonoBehaviour
             {
                 if (enScript.isDying == false)
                 {
-                    enScript.amIDead = true;
-                    enScript.isDying= true;
+                    enScript.isDying = true;
                     if (screenShake != null)
                     {
                         screenShake.IsShaking();
@@ -184,7 +183,7 @@ public class BallMovement : MonoBehaviour
                     if (enScript.currentHealth == playerHealth)
                     {
                         Debug.Log("Adding health");
-                        playerHealthUpdate = playerHealthAdded + playerHealth+2;
+                        playerHealthUpdate = playerHealthAdded + playerHealth + 2;
                         playerHealth = playerHealth + 1;
                     }
                     else
@@ -219,7 +218,6 @@ public class BallMovement : MonoBehaviour
             screenShake.IsShaking();
         }
         Debug.Log("killing this enemy");
-        
         yield return new WaitForSeconds(2);
         Instantiate(deathParticles, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity);
 
@@ -249,13 +247,13 @@ public class BallMovement : MonoBehaviour
     //grows the player larger depending on enemy
     public void GrowPlayer(int playerHealthUpdate)
     {
-        if ((Mathf.Round(playerHealthUpdate * 100))/100 <  playerHealthUpdate)
+        if ((Mathf.Round(playerHealthUpdate * 100)) / 100 < playerHealthUpdate)
         {
             transform.localScale = new Vector2(Mathf.Lerp(transform.localScale.x, playerHealthUpdate, 0.1f), Mathf.Lerp(transform.localScale.y, playerHealthUpdate, 0.1f));
         }
         else
         {
-            transform.localScale = new Vector2(playerHealthUpdate,playerHealthUpdate);
+            transform.localScale = new Vector2(playerHealthUpdate, playerHealthUpdate);
             playerGrowing = false;
         }
     }

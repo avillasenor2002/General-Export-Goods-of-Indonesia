@@ -60966,7 +60966,7 @@ PrefabInstance:
       objectReference: {fileID: 2094525404}
     - target: {fileID: 5089437778176411996, guid: 3bbbc95e052c5f74ea4ed91ef4494096, type: 3}
       propertyPath: initialFormIndex
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -62805,7 +62805,7 @@ MonoBehaviour:
   deathParticles: {fileID: 8134874074148620406, guid: 3ce392e6c5bf7ce45a8e29348a8267c3, type: 3}
   haltParticles: {fileID: 8022369065003693968, guid: b64d54fc48a17d544b96b4d317275e7a, type: 3}
   tracker: {fileID: 1841100735}
-  playerHealth: 10
+  playerHealth: 1
   playerHealthUpdate: 0
   enemyHealthUpdate: 0
   playerHealthAdded: 0

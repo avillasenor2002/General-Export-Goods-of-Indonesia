@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 [System.Serializable]
@@ -26,10 +25,8 @@ public class EnemyScript : MonoBehaviour
     public AlexScreenShake ScreenShake;
     public bool isLaunched;
     public bool isDying;
-    public bool amIDead;
     public float enemySize;
     public string spriteName;
-    public TextMeshProUGUI strengthText;
 
     public ParticleSystem defeatParticles;
 
@@ -88,7 +85,6 @@ public class EnemyScript : MonoBehaviour
 
         transform.localScale = new Vector2(enemySize, enemySize);
         currentHealth = form.health;
-        strengthText.text = currentHealth.ToString();
 
         if (form.formSprite != null && spriteRenderer != null)
         {
@@ -132,7 +128,6 @@ public class EnemyScript : MonoBehaviour
                 //GrowPlayer(enScript.currentHealth);
             }
         }
-
     }
 
     IEnumerator BelatedDeath(GameObject enemy)
@@ -181,7 +176,7 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if (amIDead == true)
+        if (isDying)
         {
             if (myAnimator != null && enemyData.forms[currentFormIndex].death != null)
             {
