@@ -190,6 +190,14 @@ public class BallMovement : MonoBehaviour
         }
     }
 
+    public void OnTriggerStay2D(Collider2D col)
+    {
+        if ((col.gameObject.tag == "Pit") && (col.gameObject.tag != "Floor"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     //kills the collided equal enemy after 2 seconds
     IEnumerator BelatedDeath(GameObject enemy)
     {
